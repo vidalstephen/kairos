@@ -26,7 +26,7 @@ The phased plan from foundation through post-launch. Each item is actionable; ch
 - [x] `.prettierrc`, `.prettierignore`
 - [x] `.pre-commit-config.yaml` + `.secrets.baseline`
 - [x] `.vscode/settings.json` + recommended extensions
-- [ ] Initialize pre-commit hooks: `pnpm dlx pre-commit install`
+- [x] Initialize pre-commit hooks: `pip3 install pre-commit && pre-commit install`
 
 ### 0.2 Documentation
 - [x] `README.md` (overview, quickstart, links)
@@ -79,9 +79,9 @@ The phased plan from foundation through post-launch. Each item is actionable; ch
 ### 0.6 Repo init
 - [x] `git init` on `main`
 - [x] First commit: `chore: initialize repository`
-- [ ] Push to GitHub under `kairos` org/repo
-- [ ] Protect `main` branch: required reviews, passing CI, signed commits, linear history
-- [ ] Create `kairos/setup-next-steps` issue tracking Phase 0 follow-ups
+- [x] Push to GitHub — [vidalstephen/kairos](https://github.com/vidalstephen/kairos)
+- [ ] Protect `main` branch — blocked: requires GitHub Pro or public repo; tracked in [#1](https://github.com/vidalstephen/kairos/issues/1)
+- [x] Created Phase 0 follow-ups issue — [#1](https://github.com/vidalstephen/kairos/issues/1)
 
 **Phase 0 acceptance**: `make bootstrap && make up` brings up all services; `curl localhost:3001/api/v1/health/live` and `curl localhost:3000` return 200; `make doctor` passes; all docs cross-reference correctly.
 
