@@ -1,0 +1,22 @@
+name: kairos
+services:
+  control-plane:
+    volumes:
+      - ../../services/control-plane/src:/app/src
+      - ../../services/control-plane/package.json:/app/package.json
+      - ../../services/control-plane/tsconfig.json:/app/tsconfig.json
+
+  cognition:
+    volumes:
+      - ../../services/cognition/src:/app/src
+      - ../../services/cognition/pyproject.toml:/app/pyproject.toml
+
+  frontend:
+    volumes:
+      - ../../services/frontend/src:/app/src
+      - ../../services/frontend/public:/app/public
+      - ../../services/frontend/next.config.mjs:/app/next.config.mjs
+      - ../../services/frontend/package.json:/app/package.json
+      - ../../services/frontend/tsconfig.json:/app/tsconfig.json
+      - ../../services/frontend/tailwind.config.ts:/app/tailwind.config.ts
+      - ../../services/frontend/postcss.config.mjs:/app/postcss.config.mjs

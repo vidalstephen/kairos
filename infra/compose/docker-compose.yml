@@ -1,0 +1,146 @@
+name: kairos
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: kairos-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-kairos}
+      POSTGRES_USER: ${POSTGRES_USER:-kairos}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-kairos}
+    volumes:
+      - kairos-pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-kairos} -d ${POSTGRES_DB:-kairos}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - kairos-internal
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: kairos-redis
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - kairos-redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "PING"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - kairos-internal
+    restart: unless-stopped
+
+  minio:
+    image: minio/minio:latest
+    container_name: kairos-minio
+    command: ["server", "/data", "--console-address", ":9001"]
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-kairos}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-kairos-dev-password}
+    volumes:
+      - kairos-minio-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:9000/minio/health/live"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    networks:
+      - kairos-internal
+    restart: unless-stopped
+
+  vault:
+    build:
+      context: ../../services/vault
+      dockerfile: Dockerfile
+    container_name: kairos-vault
+    environment:
+      VAULT_DATA_DIR: /data
+      MASTER_KEY_PATH: /run/secrets/master.key
+    volumes:
+      - kairos-vault-data:/data
+      - ${VAULT_MASTER_KEY_HOST_PATH:-./.dev/master.key}:/run/secrets/master.key:ro
+    networks:
+      - kairos-internal
+    restart: unless-stopped
+    profiles: ["vault"]
+
+  control-plane:
+    build:
+      context: ../../services/control-plane
+      dockerfile: Dockerfile
+      target: ${BUILD_TARGET:-dev}
+    container_name: kairos-control-plane
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: 3001
+      POSTGRES_HOST: kairos-postgres
+      POSTGRES_DB: ${POSTGRES_DB:-kairos}
+      POSTGRES_USER: ${POSTGRES_USER:-kairos}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-kairos}
+      REDIS_HOST: kairos-redis
+      VAULT_URL: http://kairos-vault:9000
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "3001:3001"
+    networks:
+      - kairos-internal
+      - proxy
+    restart: unless-stopped
+
+  cognition:
+    build:
+      context: ../../services/cognition
+      dockerfile: Dockerfile
+      target: ${BUILD_TARGET:-dev}
+    container_name: kairos-cognition
+    environment:
+      PORT: 8000
+      CONTROL_PLANE_URL: http://kairos-control-plane:3001
+      REDIS_HOST: kairos-redis
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    depends_on:
+      - control-plane
+    networks:
+      - kairos-internal
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ../../services/frontend
+      dockerfile: Dockerfile
+      target: ${BUILD_TARGET:-dev}
+    container_name: kairos-frontend
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      NEXT_PUBLIC_API_BASE: ${NEXT_PUBLIC_API_BASE:-http://localhost:3001/api/v1}
+    depends_on:
+      - control-plane
+    ports:
+      - "3000:3000"
+    networks:
+      - proxy
+    restart: unless-stopped
+
+volumes:
+  kairos-pg-data:
+  kairos-redis-data:
+  kairos-minio-data:
+  kairos-vault-data:
+
+networks:
+  kairos-internal:
+    driver: bridge
+    internal: false  # internal: true in prod overlay
+  kairos-sandbox:
+    driver: bridge
+    internal: true
+  proxy:
+    external: true

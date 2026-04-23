@@ -1,0 +1,42 @@
+name: deploy
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+      - name: Deploy
+        run: |
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} bash <<'EOF'
+          set -euo pipefail
+          cd ~/docker/apps/stacks/kairos
+          git fetch origin main
+          git reset --hard origin/main
+          docker compose -f infra/compose/docker-compose.yml -f infra/compose/docker-compose.prod.yml pull
+          docker compose -f infra/compose/docker-compose.yml -f infra/compose/docker-compose.prod.yml up -d --remove-orphans
+          EOF
+      - name: Smoke test
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fsS https://kairos.vectorhost.net/api/v1/health/ready; then
+              echo "Healthy"; exit 0
+            fi
+            sleep 5
+          done
+          echo "Health check failed"; exit 1

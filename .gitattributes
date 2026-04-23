@@ -1,0 +1,23 @@
+# Auto-detect text files
+* text=auto eol=lf
+
+# Explicit text
+*.md text
+*.ts text
+*.tsx text
+*.js text
+*.py text
+*.yaml text
+*.yml text
+*.json text
+*.sql text
+*.sh text eol=lf
+
+# Binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.woff2 binary
+*.ico binary
+*.pdf binary

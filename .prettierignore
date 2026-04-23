@@ -1,0 +1,7 @@
+pnpm-lock.yaml
+uv.lock
+package-lock.json
+dist/
+.next/
+build/
+coverage/

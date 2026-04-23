@@ -1,0 +1,42 @@
+name: integration
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.11.0
+          cache: pnpm
+      - name: Setup env
+        run: |
+          cp infra/compose/.env.example infra/compose/.env
+          mkdir -p infra/compose/.dev
+          head -c 32 /dev/urandom | base64 > infra/compose/.dev/master.key
+          docker network create proxy || true
+      - run: pnpm install --frozen-lockfile
+      - name: Bring up dependencies
+        run: |
+          docker compose -f infra/compose/docker-compose.yml up -d postgres redis minio
+          docker compose -f infra/compose/docker-compose.yml ps
+      - name: Wait for dependencies
+        run: |
+          for i in $(seq 1 30); do
+            docker compose -f infra/compose/docker-compose.yml exec -T postgres pg_isready -U kairos && break
+            sleep 2
+          done
+      - run: pnpm -r --if-present run test:integration
+      - name: Dump logs on failure
+        if: failure()
+        run: docker compose -f infra/compose/docker-compose.yml logs --tail=200
+      - name: Teardown
+        if: always()
+        run: docker compose -f infra/compose/docker-compose.yml down -v

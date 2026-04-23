@@ -1,0 +1,65 @@
+name: scan
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  pull_request:
+    paths:
+      - "**/package.json"
+      - "**/pnpm-lock.yaml"
+      - "**/pyproject.toml"
+      - "**/uv.lock"
+      - "**/Dockerfile"
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.11.0
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm audit --audit-level=high || true
+
+  pip-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pip-audit
+      - run: cd services/cognition && pip-audit -r <(python -c "import tomllib,sys; d=tomllib.load(open('pyproject.toml','rb'))['project']['dependencies']; print('\n'.join(d))") || true
+
+  trivy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        service: [control-plane, cognition, frontend, executor]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t kairos-${{ matrix.service }}:scan services/${{ matrix.service }}
+      - name: Trivy scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: kairos-${{ matrix.service }}:scan
+          severity: CRITICAL,HIGH
+          exit-code: "0"
+
+  secrets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: detect-secrets
+        run: |
+          pip install detect-secrets
+          detect-secrets scan --all-files --exclude-files 'pnpm-lock\.yaml|uv\.lock|package-lock\.json' > .secrets.baseline.new
+          test -f .secrets.baseline && diff -u .secrets.baseline .secrets.baseline.new || cat .secrets.baseline.new

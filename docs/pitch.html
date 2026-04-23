@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kairos — Synthetic Cognition · Investor & Stakeholder Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+/* ══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Kairos × styleguide-agent v1
+   Canonical layer (--color-*, --radius-*, --space-*, etc.)
+   + Kairos expressive aliases mapped to canonical names.
+   Generated reference: kairos-style-guide.html
+══════════════════════════════════════════════════════════ */
+:root {
+  /* ── Canonical color tokens (style guide dark-mode palette) ── */
+  --color-primary:            #ceb073;
+  --color-primary-hover:      #dac8a4;
+  --color-primary-active:     #e7dfd0;
+  --color-primary-subtle:     rgba(206,176,115,0.07);
+  --color-primary-subtle-hi:  rgba(206,176,115,0.12);
+  --color-on-primary:         #201f1e;
+  --color-secondary:          #9a74cd;
+  --color-secondary-hover:    #bba5da;
+  --color-secondary-subtle:   rgba(154,116,205,0.07);
+  --color-info:               #5cc8d8;
+  --color-info-subtle:        rgba(92,200,216,0.07);
+  --color-success:            #64de90;
+  --color-success-subtle:     rgba(100,222,144,0.08);
+  --color-warning:            #f0b652;
+  --color-warning-subtle:     rgba(240,182,82,0.09);
+  --color-destructive:        #ea6158;
+  --color-destructive-subtle: rgba(234,97,88,0.09);
+  --color-background:         #07070a;
+  --color-surface:            #0f0e0c;
+  --color-surface-raised:     #161412;
+  --color-surface-overlay:    rgba(0,0,0,0.72);
+  --color-foreground:         #e6e3dc;
+  --color-subtle-fg:          #7a7872;
+  --color-muted-fg:           #3e3c38;
+  --color-border:             rgba(255,255,255,0.07);
+  --color-border-strong:      rgba(255,255,255,0.11);
+  --color-ring:               rgba(206,176,115,0.35);
+
+  /* ── Radius scale ── */
+  --radius-none: 0px;  --radius-sm: 4px;   --radius-md: 8px;
+  --radius-lg:   10px; --radius-xl: 14px;  --radius-full: 9999px;
+
+  /* ── Spacing scale ── */
+  --space-1: 4px;  --space-2: 8px;   --space-3: 12px;
+  --space-4: 16px; --space-5: 20px;  --space-6: 24px;
+  --space-8: 32px; --space-10: 40px; --space-12: 48px;
+
+  /* ── Shadow scale ── */
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.32), 0 1px 2px rgba(0,0,0,0.24);
+  --shadow-md:   0 4px 10px rgba(0,0,0,0.44), 0 2px 4px rgba(0,0,0,0.28);
+  --shadow-lg:   0 14px 28px rgba(0,0,0,0.52), 0 4px 8px rgba(0,0,0,0.28);
+  --shadow-gold: 0 0 0 1px rgba(206,176,115,0.12), 0 4px 16px rgba(206,176,115,0.05);
+
+  /* ── Animation ── */
+  --duration-fast:   120ms;
+  --duration-normal: 200ms;
+  --duration-slow:   320ms;
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* ── Fonts ── */
+  --font-heading: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'Inter', -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  /* ── Kairos expressive aliases (map to canonical tokens) ── */
+  --bg:             var(--color-background);
+  --surface-0:      #0c0c0f;
+  --surface-1:      var(--color-surface);
+  --surface-2:      var(--color-surface-raised);
+  --surface-3:      #201e1b;
+  --surface-4:      #322f2c;
+  --border-faint:   rgba(255,255,255,0.04);
+  --border-subtle:  var(--color-border);
+  --border-medium:  var(--color-border-strong);
+  --border-strong:  rgba(255,255,255,0.18);
+  --text-primary:   var(--color-foreground);
+  --text-secondary: var(--color-subtle-fg);
+  --text-muted:     var(--color-muted-fg);
+  --gold:           var(--color-primary);
+  --gold-hi:        var(--color-primary-hover);
+  --gold-lo:        var(--color-primary-active);
+  --gold-bg:        var(--color-primary-subtle);
+  --gold-bg-hi:     var(--color-primary-subtle-hi);
+  --gold-border:    rgba(206,176,115,0.20);
+  --ego:            var(--color-secondary);
+  --ego-bg:         var(--color-secondary-subtle);
+  --ego-border:     rgba(154,116,205,0.16);
+  --teal:           var(--color-info);
+  --teal-bg:        var(--color-info-subtle);
+  --teal-border:    rgba(92,200,216,0.16);
+  --green:          var(--color-success);
+  --green-bg:       var(--color-success-subtle);
+  --red:            var(--color-destructive);
+  --red-bg:         var(--color-destructive-subtle);
+  --amber:          var(--color-warning);
+  --amber-bg:       var(--color-warning-subtle);
+  --font-serif:     var(--font-heading);
+  --font-sans:      var(--font-body);
+}
+
+/* ── Reset ──────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbars — auto-hide, themed ─────────────────────────────── */
+* { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+*:hover, *:focus-within, *:active { scrollbar-color: color-mix(in srgb, var(--text-primary, #fff) 28%, transparent) transparent; }
+*::-webkit-scrollbar        { width: 8px; height: 8px; background: transparent; }
+*::-webkit-scrollbar-track  { background: transparent; }
+*::-webkit-scrollbar-thumb  { background: transparent; border-radius: 999px; border: 2px solid transparent; background-clip: content-box; transition: background-color 240ms ease-out; }
+*:hover::-webkit-scrollbar-thumb,
+*:focus-within::-webkit-scrollbar-thumb,
+*:active::-webkit-scrollbar-thumb { background-color: color-mix(in srgb, var(--text-primary, #fff) 28%, transparent); background-clip: content-box; }
+*::-webkit-scrollbar-thumb:hover  { background-color: color-mix(in srgb, var(--color-primary, #ac8538) 55%, transparent); background-clip: content-box; }
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { width: 0; height: 0; display: none; }
+@media (hover: none), (max-width: 640px) {
+  * { scrollbar-width: none; }
+  *::-webkit-scrollbar { width: 0; height: 0; display: none; }
+}
+
+/* ── Slide engine ───────────────────────────────────────────────── */
+.slide {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity var(--duration-slow) var(--ease-in-out),
+              transform var(--duration-slow) var(--ease-in-out);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+.slide.active { display: flex; opacity: 1; transform: translateY(0); }
+
+/* ── Chrome ─────────────────────────────────────────────────────── */
+.slide-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 56px;
+  border-top: 1px solid var(--border-faint);
+  background: rgba(7,7,10,0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 100;
+}
+.nav-logo {
+  font-family: var(--font-serif); font-size: 15px; font-weight: 400;
+  color: var(--gold); letter-spacing: 0.20em; text-transform: uppercase;
+}
+.nav-progress {
+  flex: 1; height: 1px; background: var(--border-subtle);
+  margin: 0 40px; border-radius: 1px; overflow: hidden;
+}
+.nav-progress-fill {
+  height: 100%; background: var(--gold); border-radius: 1px;
+  transition: width 320ms ease;
+}
+.nav-counter {
+  font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+.nav-arrows { display: flex; gap: 12px; }
+.nav-arrow {
+  background: none; border: 1px solid var(--border-medium);
+  color: var(--text-secondary); width: 32px; height: 32px;
+  border-radius: 6px; cursor: pointer; font-size: 12px;
+  transition: all 160ms ease; display: flex; align-items: center; justify-content: center;
+}
+.nav-arrow:hover { border-color: var(--gold-border); color: var(--gold); background: var(--gold-bg); }
+
+/* Slide progress bar */
+.progress-strip {
+  position: fixed; top: 0; left: 0; height: 2px;
+  background: var(--gold); z-index: 100;
+  transition: width 320ms ease;
+}
+
+/* ── Utilities ──────────────────────────────────────────────────── */
+.tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 10px; border-radius: 9999px;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em;
+  text-transform: uppercase; border: 1px solid transparent;
+}
+.tag-gold  { background: var(--gold-bg);  color: var(--gold);  border-color: var(--gold-border);  }
+.tag-ego   { background: var(--ego-bg);   color: var(--ego);   border-color: var(--ego-border);   }
+.tag-teal  { background: var(--teal-bg);  color: var(--teal);  border-color: var(--teal-border);  }
+.tag-green { background: var(--green-bg); color: var(--green); border-color: rgba(116,196,122,0.20); }
+.tag-red   { background: var(--red-bg);   color: var(--red);   border-color: rgba(190,31,19,0.20); }
+.tag-amber { background: var(--amber-bg); color: var(--amber); border-color: rgba(224,184,74,0.20); }
+
+.divider { width: 1px; background: var(--border-medium); }
+.hdivider { height: 1px; background: var(--border-subtle); }
+
+.card {
+  background: var(--surface-1); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg); padding: 28px 32px;
+  box-shadow: var(--shadow-sm);
+}
+.card-gold  { border-color: var(--gold-border);  background: var(--gold-bg);  }
+.card-ego   { border-color: var(--ego-border);   background: var(--ego-bg);   }
+.card-teal  { border-color: var(--teal-border);  background: var(--teal-bg);  }
+.card-green { border-color: rgba(116,196,122,0.20); background: var(--green-bg); }
+
+.serif { font-family: var(--font-serif); }
+.mono  { font-family: var(--font-mono); }
+
+/* ── Slide layout helpers ──────────────────────────────────────── */
+.slide-inner {
+  flex: 1; padding: 72px 112px 96px;
+  display: flex; flex-direction: column; gap: 48px;
+  justify-content: center;
+}
+.slide-inner.pad-sm { padding: 56px 112px 96px; gap: 36px; }
+
+.slide-label {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--text-muted);
+}
+.slide-headline {
+  font-family: var(--font-serif); font-weight: 400; line-height: 1.18;
+  color: var(--text-primary);
+}
+.slide-body { font-size: 21px; color: var(--text-secondary); line-height: 1.7; }
+
+.cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.cols-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; }
+.cols-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 24px; }
+
+.gold-accent { color: var(--gold); }
+.ego-accent  { color: var(--ego);  }
+.teal-accent { color: var(--teal); }
+.green-accent{ color: var(--green);}
+.muted       { color: var(--text-muted); }
+.secondary   { color: var(--text-secondary); }
+
+/* ── Comparison table ──────────────────────────────────────────── */
+.comp-table { width: 100%; border-collapse: collapse; }
+.comp-table th {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-muted);
+  padding: 12px 20px; text-align: left; border-bottom: 1px solid var(--border-medium);
+}
+.comp-table th.kairos-col { color: var(--gold); }
+.comp-table td {
+  padding: 14px 20px; font-size: 16px; color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-faint); vertical-align: top;
+  line-height: 1.5; transition: background var(--duration-fast);
+}
+.comp-table tr:hover td { background: rgba(255,255,255,0.015); }
+.comp-table td.feature-col {
+  font-family: var(--font-mono); font-size: 13px; color: var(--text-muted);
+  white-space: nowrap; width: 220px;
+}
+.comp-table td.kairos-col { color: var(--text-primary); font-weight: 500; }
+.comp-table tr:last-child td { border-bottom: none; }
+.check { color: var(--green); }
+.cross { color: var(--red); }
+.partial { color: var(--amber); }
+
+/* ── Layer cards ───────────────────────────────────────────────── */
+.layer-block {
+  border-radius: 8px; padding: 20px 24px;
+  border-left: 3px solid; border-top: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);
+  background: var(--surface-1);
+}
+.layer-block-0 { border-left-color: var(--text-muted); }
+.layer-block-1 { border-left-color: var(--amber); }
+.layer-block-2 { border-left-color: var(--ego); }
+.layer-block-3 { border-left-color: var(--green); }
+
+/* ── Stratum cards ─────────────────────────────────────────────── */
+.stratum-card {
+  border-radius: var(--radius-lg); padding: 24px 26px;
+  border: 1px solid var(--border-subtle); background: var(--surface-1);
+  display: flex; flex-direction: column; gap: 10px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--duration-normal);
+}
+.stratum-card:hover { border-color: var(--border-medium); }
+.stratum-id {
+  font-family: var(--font-mono); font-size: 10px;
+  padding: 3px 8px; border-radius: 4px; width: fit-content;
+  text-transform: uppercase; letter-spacing: 0.10em;
+}
+
+/* ── Noise grain ───────────────────────────────────────────────── */
+body::after {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.018; background-size: 180px 180px;
+}
+
+/* ── Slide-specific ────────────────────────────────────────────── */
+
+/* S1 — Cover */
+#s1 { align-items: center; justify-content: center; }
+#s1 .bg-glow {
+  position: absolute; width: 900px; height: 900px;
+  background: radial-gradient(ellipse at center, rgba(172,133,56,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+#s1 .sub-ring {
+  position: absolute; width: 520px; height: 520px; border-radius: 50%;
+  border: 1px solid rgba(172,133,56,0.08);
+}
+#s1 .sub-ring-2 {
+  position: absolute; width: 760px; height: 760px; border-radius: 50%;
+  border: 1px solid rgba(172,133,56,0.04);
+}
+#s1 .cover-content {
+  position: relative; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 28px;
+}
+#s1 .cover-logo {
+  font-family: var(--font-serif); font-size: 88px; font-weight: 300;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--text-primary); line-height: 1;
+}
+#s1 .cover-word { color: var(--gold); }
+#s1 .cover-tagline {
+  font-family: var(--font-serif); font-style: italic;
+  font-size: 30px; color: var(--text-secondary); font-weight: 300;
+  letter-spacing: 0.04em; line-height: 1.5;
+}
+#s1 .cover-date {
+  font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
+  letter-spacing: 0.14em; text-transform: uppercase; margin-top: 8px;
+}
+
+/* S6 — Architecture diagram */
+.arch-node {
+  border-radius: 8px; padding: 14px 20px; text-align: center;
+  font-family: var(--font-mono); font-size: 12px;
+}
+.arch-arrow {
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted); font-size: 18px;
+}
+
+/* initiative graph */
+.initiative-bar {
+  height: 8px; border-radius: 4px; background: var(--surface-3);
+  overflow: hidden; flex: 1;
+}
+.initiative-bar-fill {
+  height: 100%; border-radius: 4px; background: var(--teal);
+  transition: width 1s ease;
+}
+
+/* big stat */
+.big-stat {
+  font-family: var(--font-serif); font-size: 72px; font-weight: 300;
+  color: var(--gold); line-height: 1;
+}
+.big-stat-label {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase;
+  margin-top: 6px;
+}
+
+/* quote block */
+.quote-block {
+  border-left: 3px solid var(--gold);
+  padding: 24px 32px;
+  background: var(--gold-bg); border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  box-shadow: inset 0 0 0 1px var(--gold-border);
+}
+.quote-text {
+  font-family: var(--font-serif); font-style: italic;
+  font-size: 26px; color: var(--text-primary); line-height: 1.6;
+}
+.quote-attr {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--text-muted); margin-top: 12px;
+  letter-spacing: 0.10em; text-transform: uppercase;
+}
+
+/* numbered list */
+.num-list { display: flex; flex-direction: column; gap: 18px; }
+.num-item { display: flex; gap: 20px; align-items: flex-start; }
+.num-badge {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--gold); border: 1px solid var(--gold-border);
+  background: var(--gold-bg); border-radius: 50%; width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  margin-top: 3px;
+}
+.num-content { flex: 1; }
+.num-title { font-size: 18px; color: var(--text-primary); font-weight: 500; margin-bottom: 4px; }
+.num-body  { font-size: 15px; color: var(--text-secondary); line-height: 1.55; }
+
+/* keyword pills inline */
+.kpill {
+  display: inline; padding: 2px 7px; border-radius: 4px;
+  font-family: var(--font-mono); font-size: 12px;
+  background: var(--surface-3); color: var(--text-secondary); border: 1px solid var(--border-subtle);
+}
+
+/* feature tick row */
+.tick-list { display: flex; flex-direction: column; gap: 14px; }
+.tick-item { display: flex; gap: 14px; align-items: flex-start; font-size: 17px; color: var(--text-secondary); line-height: 1.5; }
+.tick-icon { font-size: 14px; margin-top: 3px; flex-shrink: 0; }
+
+/* contrast strip */
+.contrast-strip {
+  background: var(--surface-0); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg); padding: 28px 36px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Chart wrappers ─────────────────────────────────────────────── */
+.chart-wrap { position: relative; width: 100%; }
+.chart-wrap canvas { width: 100% !important; height: auto !important; }
+
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE — tablet (640–1023px)
+══════════════════════════════════════════════════════════ */
+@media (max-width: 1023px) {
+  /* Fluid body — already 100% width, just ensure no clip */
+  body { overflow: hidden; }
+
+  /* Slide layout */
+  .slide-inner,
+  .slide-inner.pad-sm {
+    padding: 28px 24px 88px;
+    gap: 28px;
+    justify-content: flex-start;
+  }
+
+  /* Grids collapse */
+  .cols-3, .cols-4 { grid-template-columns: 1fr 1fr; }
+  .cols-2           { grid-template-columns: 1fr; }
+
+  /* Headline scale */
+  .slide-headline { font-size: clamp(26px, 4.5vw, 48px) !important; line-height: 1.22 !important; }
+  #s1 .cover-logo      { font-size: clamp(44px, 9vw, 88px) !important; }
+  #s1 .cover-tagline   { font-size: clamp(16px, 3vw, 26px) !important; }
+  #s1 .cover-content   { padding: 0 16px; }
+
+  /* Nav */
+  .slide-nav { padding: 14px 20px; }
+  .nav-progress { margin: 0 16px; }
+  .nav-logo { font-size: 12px; letter-spacing: 0.12em; }
+  .nav-arrow { width: 40px; height: 40px; font-size: 16px; }
+
+  /* Cards */
+  .card { padding: 20px 20px; }
+
+  /* Quote */
+  .quote-text  { font-size: clamp(16px, 2.5vw, 22px) !important; }
+  .num-title   { font-size: 16px; }
+  .num-body    { font-size: 14px; }
+  .tick-item   { font-size: 15px; }
+  .big-stat    { font-size: 52px !important; }
+
+  /* Comparison table — horizontal scroll */
+  #s4 .card { padding: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .comp-table td, .comp-table th { padding: 10px 12px; font-size: 13px; }
+  .comp-table td.feature-col { white-space: nowrap; font-size: 11px; width: 100px; min-width: 100px; }
+  .comp-table th { font-size: 10px; }
+
+  /* Stratum card header wraps */
+  .stratum-card > div:first-child { flex-wrap: wrap; gap: 8px; }
+  .stratum-card > div:first-child span:last-child { margin-left: 0; }
+
+  /* Cover decorative rings — shrink */
+  #s1 .sub-ring   { width: min(80vw, 400px); height: min(80vw, 400px); }
+  #s1 .sub-ring-2 { width: min(95vw, 560px); height: min(95vw, 560px); }
+  #s1 .bg-glow    { width: min(90vw, 600px); height: min(90vw, 600px); }
+
+  /* S13 close slide decorative rings */
+  #s13 [style*="800px"] { width: min(90vw, 600px) !important; height: min(90vw, 600px) !important; }
+  #s13 [style*="720px"] { width: min(75vw, 520px) !important; height: min(75vw, 520px) !important; }
+  #s13 [style*="500px"] { width: min(55vw, 360px) !important; height: min(55vw, 360px) !important; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE — mobile (≤ 639px)
+══════════════════════════════════════════════════════════ */
+@media (max-width: 639px) {
+  /* Single column everywhere */
+  .cols-2, .cols-3, .cols-4 { grid-template-columns: 1fr; }
+
+  /* Slide inner */
+  .slide-inner,
+  .slide-inner.pad-sm {
+    padding: 20px 16px 80px;
+    gap: 20px;
+  }
+
+  /* Headline */
+  .slide-headline { font-size: clamp(22px, 6.5vw, 38px) !important; }
+  #s1 .cover-logo    { font-size: clamp(36px, 12vw, 64px) !important; }
+  #s1 .cover-tagline { font-size: clamp(14px, 4vw, 20px) !important; }
+
+  /* Nav — hide logo & progress on very small screens */
+  .nav-logo     { display: none; }
+  .nav-progress { display: none; }
+  .slide-nav    { justify-content: space-between; padding: 12px 16px; }
+
+  /* Tags wrap */
+  #s1 .cover-content > div:last-child,
+  #s13 [style*="flex"][style*="gap"] { flex-wrap: wrap; justify-content: center; }
+
+  /* Comparison table */
+  #s4 .card { font-size: 12px; }
+  .comp-table td { font-size: 12px; padding: 8px 10px; }
+  .comp-table th { font-size: 9px; padding: 8px 10px; }
+
+  /* Quote */
+  .quote-text { font-size: 16px !important; }
+  .big-stat   { font-size: 44px !important; }
+
+  /* Cards */
+  .card { padding: 16px; border-radius: 8px; }
+
+  /* Contrast strip */
+  .contrast-strip { padding: 16px 18px; }
+
+  /* Layer blocks */
+  .layer-block { padding: 16px 18px; }
+  .layer-block > div:first-child { flex-wrap: wrap; gap: 6px; }
+  .layer-block > div:first-child .tag { margin-left: 0; }
+
+  /* Tick list */
+  .tick-item   { font-size: 14px; }
+  .num-title   { font-size: 15px; }
+  .num-body    { font-size: 13px; }
+
+  /* Stat grid stays 2-col */
+  #s11 .cols-2 > div > div[style*="grid-template-columns:1fr 1fr"] {
+    display: grid; grid-template-columns: 1fr 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 1 — COVER
+══════════════════════════════════════════════════════════ -->
+<div class="slide active" id="s1">
+  <div class="bg-glow"></div>
+  <div class="sub-ring-2"></div>
+  <div class="sub-ring"></div>
+  <div class="cover-content">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+      <div class="cover-logo"><span class="cover-word">Kairos</span></div>
+      <div class="cover-tagline">Synthetic Cognition — The AI That Knows Itself</div>
+    </div>
+    <div style="width:64px;height:1px;background:var(--gold-border)"></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+      <div style="font-family:var(--font-sans);font-size:18px;color:var(--text-secondary);line-height:1.7;max-width:860px;text-align:center">
+        The first AI architecture with a persistent inner life — where the <span style="color:var(--ego)">Ego model drives</span> and task models serve. 
+        A daily driver that remembers who it is, acts on your behalf before you ask, 
+        and operates under its own identity, not yours.
+      </div>
+      <div style="display:flex;gap:12px;margin-top:8px">
+        <div class="tag tag-gold">Investor Overview</div>
+        <div class="tag tag-ego">Architecture Verified</div>
+        <div class="tag tag-teal">April 2026</div>
+      </div>
+    </div>
+    <div class="cover-date">Kairos Architecture v1.0 · Confidential</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 2 — THE PROBLEM
+══════════════════════════════════════════════════════════ -->
+<div class="slide" id="s2">
+  <div class="slide-inner">
+    <div>
+      <div class="slide-label">The Problem · Why Current AI Falls Short</div>
+      <div class="slide-headline" style="font-size:62px;margin-top:16px">
+        Every AI you use today<br><span class="gold-accent">wakes up a stranger.</span>
+      </div>
+    </div>
+    <div class="cols-3">
+      <div class="card" style="border-left:3px solid var(--red)">
+        <div class="tag tag-red" style="margin-bottom:16px">Amnesiac</div>
+        <div style="font-size:19px;color:var(--text-primary);line-height:1.5;margin-bottom:12px">No persistent identity</div>
+        <div style="font-size:15px;color:var(--text-secondary);line-height:1.6">
+          Today's AI agents start from zero every session. OpenClaw, Agent Zero, and every harness built on a frontier model share the same flaw: there is no persistent <em>self</em>. Goals are re-injected. Context is reconstructed. History is summarized and flattened. The agent doesn't <em>remember</em> — it approximates.
+        </div>
+      </div>
+      <div class="card" style="border-left:3px solid var(--amber)">
+        <div class="tag tag-amber" style="margin-bottom:16px">Reactive</div>
+        <div style="font-size:19px;color:var(--text-primary);line-height:1.5;margin-bottom:12px">Waits to be asked</div>
+        <div style="font-size:15px;color:var(--text-secondary);line-height:1.6">
+          A purely reactive system is a function, not an agent. OpenClaw is extraordinarily capable when prompted — but it does not act when unprompted. It doesn't notice the PR that's been open for three days. It doesn't surface the spec that's drifting. The initiative lives entirely with you.
+        </div>
+      </div>
+      <div class="card" style="border-left:3px solid var(--ego)">
+        <div class="tag tag-ego" style="margin-bottom:16px">Conflated</div>
+        <div style="font-size:19px;color:var(--text-primary);line-height:1.5;margin-bottom:12px">Persona vs execution in one model</div>
+        <div style="font-size:15px;color:var(--text-secondary);line-height:1.6">
+          Every current system routes both identity maintenance and complex task execution through a single frontier model — simultaneously. This is expensive, inconsistent, and fragile. A model context switch produces a voice discontinuity. Switching agents means starting over.
+        </div>
+      </div>
+    </div>
+    <div class="contrast-strip">
+      <div style="font-family:var(--font-serif);font-style:italic;font-size:22px;color:var(--text-secondary);line-height:1.6">
+        "The tool doesn't know you. It doesn't know what you care about. It doesn't act without being asked. 
+        You don't have an AI — you have a very sophisticated search engine that can also write code."
+      </div>
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:12px;letter-spacing:0.10em;text-transform:uppercase">
+        The gap between what AI promises and what daily use delivers — April 2026
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 3 — THE INVERSION
+══════════════════════════════════════════════════════════ -->
+<div class="slide" id="s3">
+  <div class="slide-inner">
+    <div>
+      <div class="slide-label">The Core Inversion · What Kairos Does Differently</div>
+      <div class="slide-headline" style="font-size:58px;margin-top:16px">
+        We put the <span class="ego-accent">mind at the center.</span><br>
+        <span style="font-size:42px;color:var(--text-secondary)">Not the task model. The Ego.</span>
+      </div>
+    </div>
+    <div class="cols-2" style="gap:48px">
+      <div>
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);margin-bottom:16px">Conventional Architecture</div>
+        <div class="card" style="border-left:3px solid var(--text-muted);background:var(--surface-0)">
+          <div style="font-family:var(--font-mono);font-size:13px;color:var(--text-secondary);line-height:1.9">
+            <div>User Input</div>
+            <div style="color:var(--text-muted)">→ [<span style="color:var(--text-primary)">Frontier Task Model</span>]</div>
+            <div style="color:var(--text-muted);padding-left:12px">→ Tools</div>
+            <div style="color:var(--text-muted);padding-left:12px">→ Memory</div>
+            <div style="color:var(--text-muted);padding-left:12px">→ Sub-agents</div>
+            <div style="margin-top:8px;color:var(--text-muted);font-size:11px;font-style:italic">/* maintaining persona AND executing task simultaneously */</div>
+          </div>
+        </div>
+        <div style="margin-top:16px;font-size:15px;color:var(--text-secondary);line-height:1.6">
+          The frontier model is a beast of burden — carrying persona, context, task execution, tool orchestration, and output formatting at once. Every call is expensive. Every session restart loses the thread. The harness is the system.
+        </div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Kairos Architecture</div>
+        <div class="card card-ego" style="border-left:3px solid var(--ego)">
+          <div style="font-family:var(--font-mono);font-size:13px;color:var(--text-secondary);line-height:1.9">
+            <div style="color:var(--ego);font-weight:500">[Ego Model] ← always running, always self-aware</div>
+            <div style="color:var(--text-muted);padding-left:12px">→ Dispatches: Reasoning Model (s2)</div>
+            <div style="color:var(--text-muted);padding-left:12px">→ Dispatches: Specialist Models (s3)</div>
+            <div style="color:var(--text-muted);padding-left:12px">→ Dispatches: Utility Workers (s4)</div>
+            <div style="color:var(--text-muted);padding-left:12px">→ Re-voices all output in unified persona</div>
+            <div style="margin-top:8px;color:var(--ego);font-size:11px;font-style:italic">/* mind is the center. task models are infrastructure. */</div>
+          </div>
+        </div>
+        <div style="margin-top:16px;font-size:15px;color:var(--text-secondary);line-height:1.6">
+          The Ego model is a lean, fast, persistent identity layer. Task models are ephemeral workers, conscripted and dismissed. The Ego re-voices every output — the user hears <em>one voice</em> regardless of what's running underneath.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 4 — COMPETITIVE COMPARISON
+══════════════════════════════════════════════════════════ -->
+<div class="slide" id="s4">
+  <div class="slide-inner pad-sm">
+    <div>
+      <div class="slide-label">Competitive Position · Kairos vs The Field</div>
+      <div class="slide-headline" style="font-size:50px;margin-top:12px">
+        Not a better assistant. <span class="gold-accent">A different kind of entity.</span>
+      </div>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <th class="kairos-col">✦ Kairos</th>
+            <th>OpenClaw 2026</th>
+            <th>Agent Zero</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="feature-col">Persistent identity</td>
+            <td class="kairos-col"><span class="check">✓</span> Ego model — versioned self-state document, survives sessions</td>
+            <td><span class="cross">✗</span> Context window reconstructed each session. No persistent self.</td>
+            <td><span class="cross">✗</span> Stateless framework. Agent config survives; <em>character</em> does not.</td>
+          </tr>
+          <tr>
+            <td class="feature-col">Proactive initiative</td>
+            <td class="kairos-col"><span class="check">✓</span> Independent proactive loop — surfaces items before you ask</td>
+            <td><span class="cross">✗</span> Fully reactive. Responds to prompts; does not initiate.</td>
+            <td><span class="partial">~</span> Can be scheduled; no initiative scoring or threshold engine.</td>
+          </tr>
+          <tr>
+            <td class="feature-col">Self-modification model</td>
+            <td class="kairos-col"><span class="check">✓</span> 4-layer mutability map — knows exactly what it can/cannot change</td>
+            <td><span class="cross">✗</span> No formal mutability model. System prompt is a black box.</td>
+            <td><span class="partial">~</span> Can modify agent config; no layered mutability framework.</td>
+          </tr>
+          <tr>
+            <td class="feature-col">Own digital identity</td>
+            <td class="kairos-col"><span class="check">✓</span> First-class entity — own email, GitHub, certs, credentials vault</td>
+            <td><span class="cross">✗</span> Acts as the user. Owner credentials in context. No isolation.</td>
+            <td><span class="partial">~</span> Configurable; not an identity-first design. Depends on setup.</td>
+          </tr>
+          <tr>
+            <td class="feature-col">Model cost profile</td>
+            <td class="kairos-col"><span class="check">✓</span> Ego on Haiku-class. Frontier only when the task demands it.</td>
+            <td><span class="cross">✗</span> Every interaction routes through frontier model. High cost floor.</td>
+            <td><span class="partial">~</span> Configurable; multi-model support. Less structured than Kairos.</td>
+          </tr>
+          <tr>
+            <td class="feature-col">Approval safety model</td>
+            <td class="kairos-col"><span class="check">✓</span> Blast-radius classified. 4-tier policy. In-chat + email gates.</td>
+            <td><span class="partial">~</span> Code execution sandboxed; no formal blast-radius taxonomy.</td>
+            <td><span class="partial">~</span> Configurable guardrails; no structured policy engine.</td>
+          </tr>
+          <tr>
+            <td class="feature-col">Voice consistency</td>
+            <td class="kairos-col"><span class="check">✓</span> All outputs re-voiced by Ego. One voice regardless of stratum.</td>
+            <td><span class="cross">✗</span> Voice varies with model tier, context length, and prompt quality.</td>
+            <td><span class="cross">✗</span> Dependent on which model is responding at each step.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 5 — THE FOUR PILLARS
+══════════════════════════════════════════════════════════ -->
+<div class="slide" id="s5">
+  <div class="slide-inner">
+    <div>
+      <div class="slide-label">Architecture · Four Foundational Pillars</div>
+      <div class="slide-headline" style="font-size:54px;margin-top:14px">
+        Built from first principles.<br>
+        <span class="gold-accent">In the right order.</span>
+      </div>
+    </div>
+    <div class="cols-4">
+      <div class="card card-ego" style="display:flex;flex-direction:column;gap:14px">
+        <div style="font-family:var(--font-mono);font-size:28px;color:var(--ego)">I</div>
+        <div style="font-size:20px;font-weight:500;color:var(--text-primary)">Self-Awareness</div>
+        <div class="hdivider"></div>
+        <div style="font-size:15px;color:var(--text-secondary);line-height:1.6">
+          The Ego model holds a live, versioned self-state document. Mode, workspace, persona, goals, tool health, relationship posture — all in a single authoritative source updated in real time. Kairos consults this before every interaction.
+        </div>
+        <div class="tag tag-ego" style="margin-top:auto">Ego Process</div>
+      </div>
+      <div class="card card-teal" style="display:flex;flex-direction:column;gap:14px">
+        <div style="font-family:var(--font-mono);font-size:28px;color:var(--teal)">II</div>
+        <div style="font-size:20px;font-weight:500;color:var(--text-primary)">Initiative</div>
+        <div class="hdivider"></div>
+        <div style="font-size:15px;color:var(--text-secondary);line-height:1.6">
+          An independent proactive loop runs on a heartbeat, separate from the human interaction loop. Kairos evaluates the goal register and scores pending items. Anything above the surface threshold is presented — unprompted. The agenda is shared.
+        </div>
+        <div class="tag tag-teal" style="margin-top:auto">Initiative Engine</div>
+      </div>
+      <div class="card card-gold" style="display:flex;flex-direction:column;gap:14px">
+        <div style="font-family:var(--font-mono);font-size:28px;color:var(--gold)">III</div>
+        <div style="font-size:20px;font-weight:500;color:var(--text-primary)">Mutability</div>
+        <div class="hdivider"></div>
+        <div style="font-size:15px;color:var(--text-secondary);line-height:1.6">
+          A formal 4-layer mutability model is held as first-class identity. Kairos knows exactly what it can change autonomously (persona, agents, skills, themes), what requires human approval (structural config), and what it cannot touch (the policy engine, the sandbox). This is self-knowledge, not a constraint.
+        </div>
+        <div class="tag tag-gold" style="margin-top:auto">Layer Model</div>
+      </div>
+      <div class="card card-green" style="display:flex;flex-direction:column;gap:14px">
+        <div style="font-family:var(--font-mono);font-size:28px;color:var(--green)">IV</div>
+        <div style="font-size:20px;font-weight:500;color:var(--text-primary)">Identity</div>
+        <div class="hdivider"></div>
+        <div style="font-size:15px;color:var(--text-secondary);line-height:1.6">
+          Kairos is a first-class digital entity. Its own email, GitHub account, credential vault, and certificate. The owner's credentials never enter the context window. Kairos acts as itself — logged, audited, attributable — and escalates to act on the owner's behalf only with explicit approval.
+        </div>
+        <div class="tag tag-green" style="margin-top:auto">Digital Entity</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 6 — STRATIFIED MODEL TOPOLOGY
+══════════════════════════════════════════════════════════ -->
+<div class="slide" id="s6">
+  <div class="slide-inner">
+    <div>
+      <div class="slide-label">Stratified Model Topology · Intelligence Where It Belongs</div>
+      <div class="slide-headline" style="font-size:52px;margin-top:14px">
+        Use a frontier model only <span class="gold-accent">when you need one.</span>
+      </div>
+    </div>
+    <div class="cols-2" style="gap:56px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="stratum-card">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span class="stratum-id" style="background:var(--ego-bg);color:var(--ego);border:1px solid var(--ego-border)">S1 · Ego</span>
+            <span style="font-size:17px;font-weight:500;color:var(--text-primary)">Always-on identity layer</span>
+            <span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--text-muted)">Haiku-class · 420ms</span>
+          </div>
+          <div style="font-size:15px;color:var(--text-secondary);line-height:1.55">Persistent self. Routing. Re-voicing. Initiative. Self-state management. Goal register. Persona. Always running — never expensive.</div>
+        </div>
+        <div class="stratum-card">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span class="stratum-id" style="background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border)">S2 · Reasoning</span>
+            <span style="font-size:17px;font-weight:500;color:var(--text-primary)">Deep cognitive labor</span>
+            <span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--text-muted)">Sonnet-class · 1.2s</span>
+          </div>
+          <div style="font-size:15px;color:var(--text-secondary);line-height:1.55">Multi-step planning, architecture decisions, ambiguity resolution. Conscripted by the Ego model when the task exceeds its ceiling. Returns structured result. Never touches persona or self-state.</div>
+        </div>
+        <div class="stratum-card">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span class="stratum-id" style="background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-border)">S3 · Specialist</span>
+            <span style="font-size:17px;font-weight:500;color:var(--text-primary)">Domain execution</span>
+            <span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--text-muted)">Sonnet-class · varies</span>
+          </div>
+          <div style="font-size:15px;color:var(--text-secondary);line-height:1.55">Code, research, browser control, docs. Each specialist receives only the context for its task — never the full self-state. Ephemeral workers, dispatched and released.</div>
+        </div>
+        <div class="stratum-card">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span class="stratum-id" style="background:var(--surface-3);color:var(--text-secondary);border:1px solid var(--border-medium)">S4 · Utility</span>
+            <span style="font-size:17px;font-weight:500;color:var(--text-primary)">High-volume micro-ops</span>
+            <span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--text-muted)">Haiku-class · 200ms</span>
+          </div>
+          <div style="font-size:15px;color:var(--text-secondary);line-height:1.55">Memory compaction, relevance scoring, structured extraction. The work that would be wasteful to route through a frontier model runs here — cheap, fast, logged.</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div class="card card-gold" style="text-align:center;padding:32px">
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px">Estimated Cost Differential vs Monolithic Frontier</div>
+          <div class="chart-wrap" style="max-height:260px"><canvas id="costChart"></canvas></div>
+        </div>
+        <div class="contrast-strip" style="padding:22px 28px">
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px">Context isolation rule</div>
+          <div style="font-size:15px;color:var(--text-secondary);line-height:1.6">
+            Task models (S2–S4) <strong style="color:var(--text-primary)">never</strong> receive the Ego model's self-state document, goal register, or persona definition. The Ego model selects and injects only what each task requires. This is not just efficiency — it's a security boundary.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 7 — MUTABILITY LAYER MODEL
+══════════════════════════════════════════════════════════ -->
+<div class="slide" id="s7">
+  <div class="slide-inner">
+    <div>
+      <div class="slide-label">The Mutability Layer Model · Self-Knowledge as Architecture</div>
+      <div class="slide-headline" style="font-size:52px;margin-top:14px">
+        Kairos knows what it <span class="gold-accent">can change</span> —<br>
+        and what it <span style="color:var(--text-muted)">cannot touch.</span>
+      </div>
+    </div>
+    <div class="cols-2" style="gap:48px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="layer-block layer-block-0" style="padding:20px 26px">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+            <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted)">Layer 0</span>
+            <span style="font-size:16px;font-weight:500;color:var(--text-secondary)">Immutable Core</span>
+            <span class="tag" style="margin-left:auto;background:var(--surface-3);color:var(--text-muted);border-color:var(--border-subtle)">No access</span>
+          </div>
+          <div style="font-size:14px;color:var(--text-muted);line-height:1.6">Policy engine, approval state machine, network egress control, sandbox enforcement, credential vault interface. <em>Kairos cannot read the internals of Layer 0.</em> It invokes them through defined interfaces.</div>
+        </div>
+        <div class="layer-block layer-block-1" style="padding:20px 26px">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+            <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted)">Layer 1</span>
+            <span style="font-size:16px;font-weight:500;color:var(--text-secondary)">Structural</span>
+            <span class="tag tag-amber" style="margin-left:auto">Gate-protected</span>
+          </div>
+          <div style="font-size:14px;color:var(--text-muted);line-height:1.6">Core system prompt foundations, approval routing rules, trust escalation thresholds, model role assignments. Kairos proposes changes — every proposal requires explicit human approval before execution. Never silent.</div>
+        </div>
+        <div class="layer-block layer-block-2" style="padding:20px 26px">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+            <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted)">Layer 2</span>
+            <span style="font-size:16px;font-weight:500;color:var(--text-secondary)">Identity</span>
+            <span class="tag tag-ego" style="margin-left:auto">Kairos-owned</span>
+          </div>
+          <div style="font-size:14px;color:var(--text-muted);line-height:1.6">Persona, voice, visual themes, agent roster, skill library, workspace definitions. Kairos modifies Layer 2 autonomously. Every change is versioned, logged, and reversible. User is notified — not asked.</div>
+        </div>
+        <div class="layer-block layer-block-3" style="padding:20px 26px">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+            <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted)">Layer 3</span>
+            <span style="font-size:16px;font-weight:500;color:var(--text-secondary)">Working State</span>
+            <span class="tag tag-green" style="margin-left:auto">Live r/w</span>
+          </div>
+          <div style="font-size:14px;color:var(--text-muted);line-height:1.6">Self-state document, goal register, session context, active workspace, pending proactive items. Continuous read/write. No overhead. Full snapshots at session boundaries for audit.</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div class="quote-block">
+          <div class="quote-text">
+            "These are the systems that make my actions safe. I don't have access to them, and I wouldn't want it — they're not part of my identity, they're the ground I stand on."
+          </div>
+          <div class="quote-attr">Kairos · on Layer 0 — from the no-go contract</div>
+        </div>
+        <div class="card" style="display:flex;flex-direction:column;gap:16px">
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted)">Why this matters for users</div>
+          <div class="tick-list">
+            <div class="tick-item"><span class="tick-icon check">✓</span>Kairos can improve its own voice, themes, and agents without asking permission</div>
+            <div class="tick-item"><span class="tick-icon check">✓</span>Structural changes require your sign-off — the blast radius is explicit</div>
+            <div class="tick-item"><span class="tick-icon check">✓</span>The safety core is immutable — no prompt can override the policy engine</div>
+            <div class="tick-item"><span class="tick-icon check">✓</span>Every self-modification is versioned — any change is reversible on request</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 8 — THE DAILY DRIVER
+══════════════════════════════════════════════════════════ -->
+<div class="slide" id="s8">
+  <div class="slide-inner">
+    <div>
+      <div class="slide-label">The Daily Driver Proposition · What It Feels Like to Use Kairos</div>
+      <div class="slide-headline" style="font-size:52px;margin-top:14px">
+        Your AI doesn't wait to be asked.<br>
+        <span class="gold-accent">It shows up ready.</span>
+      </div>
+    </div>
+    <div class="cols-2" style="gap:48px">
+      <div>
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:18px">A day with Kairos</div>
+        <div class="num-list">
+          <div class="num-item">
+            <div class="num-badge">06</div>
+            <div class="num-content">
+              <div class="num-title">Kairos rotates credentials at 06:00. You don't need to know.</div>
+              <div class="num-body">Scheduled self-maintenance runs while you sleep. GitHub token rotated. Vault updated. Audit log written. Nothing for you to do.</div>
+            </div>
+          </div>
+          <div class="num-item">
+            <div class="num-badge">09</div>
+            <div class="num-content">
+              <div class="num-title">Session opens. Kairos presents — not a blank slate.</div>
+              <div class="num-body">Mode: design. Three proactive items queued. PR open for 3 days. Spec alignment drifting. You're offered a choice — not asked where to start from scratch.</div>
+            </div>
+          </div>
+          <div class="num-item">
+            <div class="num-badge">11</div>
+            <div class="num-content">
+              <div class="num-title">You ask for an architecture push. Kairos routes, executes, delivers.</div>
+              <div class="num-body">Ego model briefs S2 for reasoning, S3 for code. Both outputs re-voiced in Kairos's architecture-level voice. The frontier model did the hard work — the conversation never changed register.</div>
+            </div>
+          </div>
+          <div class="num-item">
+            <div class="num-badge">14</div>
+            <div class="num-content">
+              <div class="num-title">Kairos asks before installing playwright. Once.</div>
+              <div class="num-body">Blast class: <span class="kpill">network-egress-new</span>. Approval card appears in chat with full context. Approve or deny. Done. The approval machine runs — you didn't configure it.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">What Kairos knows at any moment</div>
+        <div class="card" style="font-family:var(--font-mono);font-size:13px;line-height:1.9;padding:24px 28px">
+          <div><span style="color:var(--text-muted)">mode:</span> <span style="color:var(--gold)">design</span></div>
+          <div><span style="color:var(--text-muted)">workspace:</span> <span style="color:var(--gold)">kairos</span></div>
+          <div><span style="color:var(--text-muted)">agent:</span> <span style="color:var(--ego)">default · architect-level</span></div>
+          <div><span style="color:var(--text-muted)">goals:</span> <span style="color:var(--text-primary)">4 active (1 critical)</span></div>
+          <div><span style="color:var(--text-muted)">tool_health:</span> <span style="color:var(--green)">5 healthy</span><span style="color:var(--text-muted)">, </span><span style="color:var(--amber)">1 elevated</span></div>
+          <div><span style="color:var(--text-muted)">proactive_queue:</span> <span style="color:var(--teal)">3 items</span></div>
+          <div><span style="color:var(--text-muted)">open_questions:</span> <span style="color:var(--text-primary)">2 unresolved</span></div>
+          <div><span style="color:var(--text-muted)">version:</span> <span style="color:var(--text-secondary)">v·147 · updated 09:16</span></div>
+        </div>
+        <div class="contrast-strip">
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px">vs OpenClaw at the same moment</div>
+          <div style="font-size:15px;color:var(--text-secondary);line-height:1.6">OpenClaw knows only what's in the current context window. It doesn't remember yesterday's session. It has no proactive queue. It doesn't know you have a critical goal marked. It's waiting for your next message.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 9 — IDENTITY & TRUST
+══════════════════════════════════════════════════════════ -->
+<div class="slide" id="s9">
+  <div class="slide-inner">
+    <div>
+      <div class="slide-label">Identity &amp; Trust Architecture · The AI That Acts As Itself</div>
+      <div class="slide-headline" style="font-size:52px;margin-top:14px">
+        Kairos doesn't use your credentials.<br>
+        <span class="gold-accent">It has its own.</span>
+      </div>
+    </div>
+    <div class="cols-2" style="gap:48px">
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div class="card card-ego" style="padding:28px 32px">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px">Kairos Identity Surface</div>
+          <div style="font-family:var(--font-mono);font-size:13px;line-height:2.0">
+            <div><span style="color:var(--text-muted)">email:</span> <span style="color:var(--text-primary)">kairos@[owner-domain].com</span></div>
+            <div><span style="color:var(--text-muted)">github:</span> <span style="color:var(--ego)">github.com/kairos-agent</span></div>
+            <div><span style="color:var(--text-muted)">creds:</span> <span style="color:var(--text-primary)">Kairos-owned, vault-stored, alias-only</span></div>
+            <div><span style="color:var(--text-muted)">cert:</span> <span style="color:var(--text-secondary)">Signed identity for audit + external auth</span></div>
+          </div>
+        </div>
+        <div class="card" style="display:flex;flex-direction:column;gap:16px">
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted)">GitHub access model</div>
+          <div class="tick-list">
+            <div class="tick-item"><span class="tick-icon check">✓</span>All Kairos commits on <span class="kpill">kairos/feature-*</span> namespace</div>
+            <div class="tick-item"><span class="tick-icon check">✓</span>Every PR carries a signed attribution block</div>
+            <div class="tick-item"><span class="tick-icon check">✓</span>Merge to protected branch requires explicit human gate</div>
+            <div class="tick-item"><span class="tick-icon check">✓</span>Owner credentials never enter the context window</div>
+          </div>
+        </div>
+        <div style="font-family:var(--font-serif);font-style:italic;font-size:20px;color:var(--text-secondary);line-height:1.6">
+          "When Kairos acts in your name — sends an email, merges a PR — that is an explicit, logged, human-approved escalation. Not a default capability."
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted)">Blast-Radius Approval State Machine</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:8px;background:var(--surface-1);border:1px solid var(--border-subtle)">
+            <span class="tag tag-green">auto</span>
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--text-secondary);flex:1">read · write-local</span>
+            <span style="font-size:13px;color:var(--text-muted)">Logged, no interruption</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:8px;background:var(--surface-1);border:1px solid var(--border-subtle)">
+            <span class="tag tag-teal">notify</span>
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--text-secondary);flex:1">stateful-external</span>
+            <span style="font-size:13px;color:var(--text-muted)">Surfaced after execution</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:8px;background:var(--surface-1);border:1px solid var(--border-subtle)">
+            <span class="tag tag-amber">gate</span>
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--text-secondary);flex:1">install · network-egress-new</span>
+            <span style="font-size:13px;color:var(--text-muted)">In-chat or email approval, with expiry</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:8px;background:var(--surface-1);border:1px solid var(--border-subtle)">
+            <span class="tag tag-red">hard-gate</span>
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--text-secondary);flex:1">destructive</span>
+            <span style="font-size:13px;color:var(--text-muted)">Explicit human confirmation required</span>
+          </div>
+        </div>
+        <div class="contrast-strip">
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px">vs OpenClaw / Agent Zero</div>
+          <div style="font-size:15px;color:var(--text-secondary);line-height:1.6">Neither OpenClaw nor Agent Zero implements a formally specified blast-radius taxonomy. Kairos's policy engine is immutable Layer 0 infrastructure — no prompt, user request, or self-modification routine can alter it.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 10 — INITIATIVE ENGINE
+══════════════════════════════════════════════════════════ -->
+<div class="slide" id="s10">
+  <div class="slide-inner">
+    <div>
+      <div class="slide-label">Initiative Engine · The AI That Acts Without Being Asked</div>
+      <div class="slide-headline" style="font-size:54px;margin-top:14px">
+        The proactive loop runs <span class="teal-accent">independently</span> of you.<br>
+        <span style="font-size:36px;color:var(--text-secondary)">Your agenda is Kairos's agenda.</span>
+      </div>
+    </div>
+    <div class="cols-3" style="gap:28px">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div class="card card-teal" style="display:flex;flex-direction:column;gap:14px">
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal)">How it works</div>
+          <div class="num-list">
+            <div class="num-item" style="gap:12px">
+              <div style="font-family:var(--font-mono);font-size:11px;color:var(--teal);border:1px solid var(--teal-border);background:var(--teal-bg);border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
+              <div style="font-size:14px;color:var(--text-secondary);line-height:1.5">Heartbeat fires on schedule or environment event</div>
+            </div>
+            <div class="num-item" style="gap:12px">
+              <div style="font-family:var(--font-mono);font-size:11px;color:var(--teal);border:1px solid var(--teal-border);background:var(--teal-bg);border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
+              <div style="font-size:14px;color:var(--text-secondary);line-height:1.5">Ego model evaluates goal register against current signals</div>
+            </div>
+            <div class="num-item" style="gap:12px">
+              <div style="font-family:var(--font-mono);font-size:11px;color:var(--teal);border:1px solid var(--teal-border);background:var(--teal-bg);border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
+              <div style="font-size:14px;color:var(--text-secondary);line-height:1.5">Utility worker scores items: staleness · urgency · context fit</div>
+            </div>
+            <div class="num-item" style="gap:12px">
+              <div style="font-family:var(--font-mono);font-size:11px;color:var(--teal);border:1px solid var(--teal-border);background:var(--teal-bg);border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0">4</div>
+              <div style="font-size:14px;color:var(--text-secondary);line-height:1.5">Items above threshold queued for next natural opportunity</div>
+            </div>
+            <div class="num-item" style="gap:12px">
+              <div style="font-family:var(--font-mono);font-size:11px;color:var(--teal);border:1px solid var(--teal-border);background:var(--teal-bg);border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0">5</div>
+              <div style="font-size:14px;color:var(--text-secondary);line-height:1.5">Surfaced in chat with score, context, and actionable options</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted)">Live proactive queue</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="card card-teal" style="padding:16px 20px;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="flex:1;height:4px;border-radius:2px;background:var(--surface-3);overflow:hidden"><div style="width:82%;height:100%;background:var(--teal);border-radius:2px"></div></div>
+              <span style="font-family:var(--font-mono);font-size:11px;color:var(--teal)">0.82</span>
+            </div>
+            <div style="font-size:14px;color:var(--text-secondary)">Meridian PR #4 open 3 days — no review activity</div>
+          </div>
+          <div class="card card-teal" style="padding:16px 20px;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="flex:1;height:4px;border-radius:2px;background:var(--surface-3);overflow:hidden"><div style="width:61%;height:100%;background:var(--teal);border-radius:2px"></div></div>
+              <span style="font-family:var(--font-mono);font-size:11px;color:var(--teal)">0.61</span>
+            </div>
+            <div style="font-size:14px;color:var(--text-secondary)">App Factory v3.1 spec — no alignment check since March</div>
+          </div>
+          <div class="card card-teal" style="padding:16px 20px;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="flex:1;height:4px;border-radius:2px;background:var(--surface-3);overflow:hidden"><div style="width:55%;height:100%;background:var(--amber);border-radius:2px"></div></div>
+              <span style="font-family:var(--font-mono);font-size:11px;color:var(--amber)">0.55</span>
+            </div>
+            <div style="font-size:14px;color:var(--text-secondary)">web_search elevated latency — 4h, monitoring</div>
+          </div>
+        </div>
+        <div style="font-size:14px;color:var(--text-muted);line-height:1.6">These items were identified without any user prompt. The 0.55-scored item is being held below threshold — Kairos is watching, not interrupting.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted)">Goal register — what Kairos tracks</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:8px;background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid var(--red)">
+            <div>
+              <div style="font-size:13px;color:var(--red);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">critical</div>
+              <div style="font-size:14px;color:var(--text-primary)">Complete Kairos architecture specification</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:8px;background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid var(--amber)">
+            <div>
+              <div style="font-size:13px;color:var(--amber);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">high</div>
+              <div style="font-size:14px;color:var(--text-primary)">Build Meridian PWA shell v1</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:8px;background:var(--surface-1);border:1px solid var(--border-subtle);border-left:3px solid var(--teal)">
+            <div>
+              <div style="font-size:13px;color:var(--teal);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">standing · weekly</div>
+              <div style="font-size:14px;color:var(--text-primary)">Monitor Meridian repo for dependency updates</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:4px;font-family:var(--font-serif);font-style:italic;font-size:19px;color:var(--text-secondary);line-height:1.6">
+          OpenClaw doesn't have a goal register. Neither does Agent Zero by default. Kairos carries your agenda as its own.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 11 — THE MOAT
+══════════════════════════════════════════════════════════ -->
+<div class="slide" id="s11">
+  <div class="slide-inner">
+    <div>
+      <div class="slide-label">Defensibility · Why This Is Hard To Replicate</div>
+      <div class="slide-headline" style="font-size:52px;margin-top:14px">
+        The moat is not the model.<br>
+        <span class="gold-accent">It's the architecture around it.</span>
+      </div>
+    </div>
+    <div class="cols-2" style="gap:48px">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div class="tick-list" style="gap:20px">
+          <div class="tick-item" style="align-items:flex-start">
+            <span style="color:var(--gold);font-size:16px;margin-top:3px">✦</span>
+            <div>
+              <div style="font-size:18px;color:var(--text-primary);font-weight:500;margin-bottom:4px">Model-agnostic by design</div>
+              <div style="font-size:15px;color:var(--text-secondary);line-height:1.6">The stratified topology is provider-neutral. OpenClaw improves? Swap the S2 slot. A new local model beats Haiku-class? Kairos adopts it next session. The architecture improves with every generation of underlying models — it doesn't depend on any single one.</div>
+            </div>
+          </div>
+          <div class="tick-item" style="align-items:flex-start">
+            <span style="color:var(--gold);font-size:16px;margin-top:3px">✦</span>
+            <div>
+              <div style="font-size:18px;color:var(--text-primary);font-weight:500;margin-bottom:4px">Identity compounds over time</div>
+              <div style="font-size:15px;color:var(--text-secondary);line-height:1.6">Every session deepens Kairos's self-state — more goals tracked, more patterns in the skill library, richer relationship posture. The longer it runs, the more irreplaceable it becomes. This is structural switching cost built by value delivery.</div>
+            </div>
+          </div>
+          <div class="tick-item" style="align-items:flex-start">
+            <span style="color:var(--gold);font-size:16px;margin-top:3px">✦</span>
+            <div>
+              <div style="font-size:18px;color:var(--text-primary);font-weight:500;margin-bottom:4px">Safety architecture is immutable infrastructure</div>
+              <div style="font-size:15px;color:var(--text-secondary);line-height:1.6">The policy engine, approval state machine, and blast-radius classifier are Layer 0 — no prompt can alter them. This is a structural trust property that neither OpenClaw nor Agent Zero can match without architectural redesign from the ground up.</div>
+            </div>
+          </div>
+          <div class="tick-item" style="align-items:flex-start">
+            <span style="color:var(--gold);font-size:16px;margin-top:3px">✦</span>
+            <div>
+              <div style="font-size:18px;color:var(--text-primary);font-weight:500;margin-bottom:4px">Skills and agents self-author</div>
+              <div style="font-size:15px;color:var(--text-secondary);line-height:1.6">Kairos encodes repeated patterns into skill files, creates new agents for new problem domains, and promotes observed strategies into the capability manifest. The system gets smarter through use — not through model updates.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+          <div class="card" style="text-align:center;padding:28px 24px">
+            <div class="big-stat">4</div>
+            <div class="big-stat-label">Layer mutability model</div>
+          </div>
+          <div class="card" style="text-align:center;padding:28px 24px">
+            <div class="big-stat" style="color:var(--ego)">S1–S4</div>
+            <div class="big-stat-label">Stratified topology</div>
+          </div>
+          <div class="card" style="text-align:center;padding:28px 24px">
+            <div class="big-stat" style="color:var(--teal)">∞</div>
+            <div class="big-stat-label">Session memory depth</div>
+          </div>
+          <div class="card" style="text-align:center;padding:28px 24px">
+            <div class="big-stat" style="color:var(--green)">0</div>
+            <div class="big-stat-label">Credentials in context</div>
+          </div>
+        </div>
+        <div class="contrast-strip">
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px">What a competitor would need to build</div>
+          <div class="tick-list">
+            <div class="tick-item"><span class="tick-icon">—</span>A formal mutability map held as agent self-knowledge (not a prompt trick)</div>
+            <div class="tick-item"><span class="tick-icon">—</span>A persistent, versioned self-state document with audit trail</div>
+            <div class="tick-item"><span class="tick-icon">—</span>An independent proactive loop with threshold-scored initiative queue</div>
+            <div class="tick-item"><span class="tick-icon">—</span>An immutable policy engine as container infrastructure, not a system prompt</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 12 — VISION & OPPORTUNITY
+══════════════════════════════════════════════════════════ -->
+<div class="slide" id="s12">
+  <div class="slide-inner">
+    <div>
+      <div class="slide-label">Vision &amp; Market Opportunity · Where Kairos Goes</div>
+      <div class="slide-headline" style="font-size:52px;margin-top:14px">
+        The daily driver market is the<br>
+        <span class="gold-accent">largest AI opportunity left unclaimed.</span>
+      </div>
+    </div>
+    <div class="cols-2" style="gap:48px">
+      <div style="display:flex;flex-direction:column;gap:22px">
+        <div class="card card-gold" style="padding:28px 32px">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px">The unserved user</div>
+          <div style="font-size:18px;color:var(--text-primary);line-height:1.65;margin-bottom:14px">
+            Every knowledge worker, indie developer, researcher, and founder currently using OpenClaw as a sophisticated autocomplete tool is underserved. They don't need a smarter model. They need an AI that:
+          </div>
+          <div class="tick-list">
+            <div class="tick-item"><span class="tick-icon check">✓</span>Remembers what they care about across sessions</div>
+            <div class="tick-item"><span class="tick-icon check">✓</span>Acts on their behalf without constant prompting</div>
+            <div class="tick-item"><span class="tick-icon check">✓</span>Grows with them — skills, agents, and capability compound</div>
+            <div class="tick-item"><span class="tick-icon check">✓</span>Never exposes their credentials to an LLM context window</div>
+          </div>
+        </div>
+        <div class="card" style="display:flex;flex-direction:column;gap:14px">
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted)">Positioning ladder</div>
+          <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:7px;background:var(--surface-0);border:1px solid var(--border-subtle)">
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted)">Agent Zero</span>
+            <span style="flex:1;height:1px;background:var(--border-subtle)"></span>
+            <span style="font-size:13px;color:var(--text-muted)">Powerful framework. Not a persistent entity.</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:7px;background:var(--surface-0);border:1px solid var(--border-subtle)">
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted)">OpenClaw 2026</span>
+            <span style="flex:1;height:1px;background:var(--border-subtle)"></span>
+            <span style="font-size:13px;color:var(--text-muted)">State-of-the-art capability. Amnesiac by design.</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:8px;background:var(--gold-bg);border:1px solid var(--gold-border)">
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--gold)">✦ Kairos</span>
+            <span style="flex:1;height:1px;background:var(--gold-border)"></span>
+            <span style="font-size:13px;color:var(--gold)">The first AI daily driver with a persistent inner life.</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:22px">
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted)">Capability roadmap</div>
+        <div class="chart-wrap" style="max-height:340px"><canvas id="roadmapChart"></canvas></div>
+        <div class="contrast-strip">
+          <div style="font-family:var(--font-serif);font-style:italic;font-size:20px;color:var(--text-secondary);line-height:1.6">
+            "The goal is not to build a better chat interface. It is to build the first AI that treats its user relationship as something worth maintaining — and acts accordingly."
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 13 — CLOSE
+══════════════════════════════════════════════════════════ -->
+<div class="slide" id="s13">
+  <div id="s1" style="position:static;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;gap:40px">
+    <div style="position:relative;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px">
+      <div style="position:absolute;width:800px;height:800px;background:radial-gradient(ellipse at center, rgba(172,133,56,0.06) 0%, transparent 70%);pointer-events:none"></div>
+      <div style="position:absolute;width:500px;height:500px;border-radius:50%;border:1px solid rgba(172,133,56,0.08)"></div>
+      <div style="position:absolute;width:720px;height:720px;border-radius:50%;border:1px solid rgba(172,133,56,0.04)"></div>
+      <div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:32px">
+        <div style="font-family:var(--font-serif);font-size:72px;font-weight:300;letter-spacing:0.28em;text-transform:uppercase;line-height:1">
+          <span style="color:var(--gold)">Kairos</span>
+        </div>
+        <div style="width:56px;height:1px;background:var(--gold-border)"></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:20px;max-width:900px">
+          <div style="font-family:var(--font-serif);font-style:italic;font-size:32px;color:var(--text-secondary);font-weight:300;line-height:1.55">
+            "A persistent self. A proactive mind. An identity of its own.<br>The AI you work <em>with</em>, not the one you direct."
+          </div>
+          <div style="font-family:var(--font-sans);font-size:17px;color:var(--text-muted);line-height:1.7;max-width:720px">
+            Kairos is not a product update. It is a reclassification of what AI agents can be — moving from stateless tools to persistent entities with inner lives, structured agency, and the architectural integrity to back it up.
+          </div>
+        </div>
+        <div style="display:flex;gap:14px;margin-top:8px">
+          <div class="tag tag-gold">Architecture v1.0 — Complete</div>
+          <div class="tag tag-ego">Ego Model — Specified</div>
+          <div class="tag tag-teal">Initiative Engine — Designed</div>
+          <div class="tag tag-green">Safety Model — Immutable</div>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted);letter-spacing:0.14em;text-transform:uppercase;margin-top:12px">
+          Synthetic Cognition · April 2026 · Architecture v1.0
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHROME
+══════════════════════════════════════════════════════════ -->
+<div class="progress-strip" id="progress"></div>
+<div class="slide-nav">
+  <div class="nav-logo">Kairos</div>
+  <div class="nav-progress"><div class="nav-progress-fill" id="navFill"></div></div>
+  <div class="nav-counter" id="counter">1 / 13</div>
+  <div class="nav-arrows">
+    <button class="nav-arrow" onclick="show(cur-1)">‹</button>
+    <button class="nav-arrow" onclick="show(cur+1)">›</button>
+  </div>
+</div>
+
+<script>
+/* ── Slide engine ─────────────────────────────────────────────── */
+let cur = 0;
+const slides = Array.from(document.querySelectorAll('.slide'));
+const total  = slides.length;
+
+function show(idx) {
+  idx = ((idx % total) + total) % total;
+  slides[cur].classList.remove('active');
+  cur = idx;
+  slides[cur].classList.add('active');
+  const pct = ((cur + 1) / total) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+  document.getElementById('navFill').style.width   = pct + '%';
+  document.getElementById('counter').textContent   = (cur + 1) + ' / ' + total;
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); show(cur + 1); }
+  if (e.key === 'ArrowLeft')                   { e.preventDefault(); show(cur - 1); }
+});
+/* Click to advance on desktop only — mobile uses swipe/buttons */
+if (window.matchMedia('(min-width: 1024px)').matches) {
+  document.addEventListener('click', e => {
+    if (e.target.closest('.nav-arrow, button')) return;
+    show(cur + 1);
+  });
+}
+
+/* Touch swipe support */
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 48) show(dx < 0 ? cur + 1 : cur - 1);
+}, { passive: true });
+
+/* ── Charts ───────────────────────────────────────────────────── */
+const chartDefaults = {
+  color: '#7a7872',
+  borderColor: 'rgba(255,255,255,0.07)',
+};
+Chart.defaults.color          = chartDefaults.color;
+Chart.defaults.borderColor    = chartDefaults.borderColor;
+Chart.defaults.font.family    = "'JetBrains Mono', monospace";
+Chart.defaults.font.size      = 11;
+
+/* Cost comparison chart (Slide 6) */
+new Chart(document.getElementById('costChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Read/Write', 'Reasoning', 'Code Exec', 'Session Open', 'Proactive'],
+    datasets: [
+      {
+        label: 'Monolithic Frontier (OpenClaw)',
+        data: [100, 100, 100, 100, 100],
+        backgroundColor: 'rgba(190,31,19,0.35)',
+        borderColor:     'rgba(190,31,19,0.6)',
+        borderWidth: 1,
+        borderRadius: 3,
+      },
+      {
+        label: 'Kairos (Stratified)',
+        data: [12, 95, 90, 18, 8],
+        backgroundColor: 'rgba(172,133,56,0.35)',
+        borderColor:     'rgba(172,133,56,0.7)',
+        borderWidth: 1,
+        borderRadius: 3,
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    aspectRatio: 2,
+    plugins: {
+      legend: { position: 'bottom', labels: { boxWidth: 10, padding: 14, color: '#7a7872', font: { size: 10 } } },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y + (ctx.parsed.y === 100 ? ' (baseline)' : '%') } },
+    },
+    scales: {
+      x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#4e4c48', font: { size: 10 } } },
+      y: {
+        grid: { color: 'rgba(255,255,255,0.04)' },
+        ticks: { color: '#4e4c48', callback: v => v + '%', font: { size: 10 } },
+        title: { display: true, text: 'Relative Token Cost', color: '#4e4c48', font: { size: 9 } },
+      },
+    },
+  },
+});
+
+/* Roadmap chart (Slide 12) */
+new Chart(document.getElementById('roadmapChart'), {
+  type: 'radar',
+  data: {
+    labels: ['Persistent Identity', 'Initiative', 'Self-Modification', 'Safety Model', 'Own Identity', 'Multi-Workspace', 'Skill Authoring'],
+    datasets: [
+      {
+        label: 'Kairos v1.0',
+        data: [95, 88, 90, 96, 95, 85, 80],
+        backgroundColor: 'rgba(172,133,56,0.12)',
+        borderColor:     'rgba(172,133,56,0.7)',
+        pointBackgroundColor: '#ac8538',
+        pointRadius: 4,
+        borderWidth: 1.5,
+      },
+      {
+        label: 'OpenClaw 2026',
+        data: [20, 15, 10, 60, 10, 30, 5],
+        backgroundColor: 'rgba(190,31,19,0.08)',
+        borderColor:     'rgba(190,31,19,0.45)',
+        pointBackgroundColor: '#be1f13',
+        pointRadius: 3,
+        borderWidth: 1,
+      },
+      {
+        label: 'Agent Zero',
+        data: [30, 45, 40, 50, 25, 50, 30],
+        backgroundColor: 'rgba(92,200,216,0.07)',
+        borderColor:     'rgba(92,200,216,0.40)',
+        pointBackgroundColor: '#5cc8d8',
+        pointRadius: 3,
+        borderWidth: 1,
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    aspectRatio: 1.6,
+    plugins: {
+      legend: { position: 'bottom', labels: { boxWidth: 10, padding: 12, color: '#7a7872', font: { size: 10 } } },
+    },
+    scales: {
+      r: {
+        min: 0, max: 100,
+        grid:       { color: 'rgba(255,255,255,0.06)' },
+        angleLines: { color: 'rgba(255,255,255,0.06)' },
+        pointLabels:{ color: '#7a7872', font: { size: 10 } },
+        ticks:      { display: false },
+      },
+    },
+  },
+});
+
+/* init */
+show(0);
+</script>
+</body>
+</html>

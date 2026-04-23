@@ -1,0 +1,4 @@
+packages:
+  - "services/control-plane"
+  - "services/frontend"
+  - "packages/*"

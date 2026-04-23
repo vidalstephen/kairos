@@ -1,0 +1,30 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[python]": { "editor.defaultFormatter": "charliermarsh.ruff" },
+  "python.analysis.typeCheckingMode": "strict",
+  "python.defaultInterpreterPath": "${workspaceFolder}/services/cognition/.venv/bin/python",
+  "eslint.workingDirectories": [
+    { "pattern": "services/*" },
+    { "pattern": "packages/*" }
+  ],
+  "files.exclude": {
+    "**/.turbo": true,
+    "**/dist": true,
+    "**/.next": true,
+    "**/__pycache__": true,
+    "**/.venv": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.next": true,
+    "**/.venv": true,
+    "pnpm-lock.yaml": true,
+    "uv.lock": true
+  }
+}

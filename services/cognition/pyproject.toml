@@ -1,0 +1,60 @@
+[project]
+name = "kairos-cognition"
+version = "0.0.0"
+requires-python = ">=3.12,<3.13"
+description = "Kairos cognition service — Ego loop, stratum workers, model providers"
+readme = "README.md"
+license = { text = "MIT" }
+dependencies = [
+  "fastapi>=0.110",
+  "uvicorn[standard]>=0.29",
+  "pydantic>=2.6",
+  "pydantic-settings>=2.2",
+  "httpx>=0.27",
+  "structlog>=24.1",
+  "asyncpg>=0.29",
+  "redis>=5.0",
+  "anthropic>=0.25",
+  "openai>=1.20",
+  "opentelemetry-api>=1.24",
+  "opentelemetry-sdk>=1.24",
+  "tenacity>=8.2",
+]
+
+[dependency-groups]
+dev = [
+  "pytest>=8.1",
+  "pytest-asyncio>=0.23",
+  "pytest-cov>=4.1",
+  "mypy>=1.9",
+  "ruff>=0.3",
+  "types-redis>=4.6",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/kairos_cognition"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "TCH", "RUF"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
