@@ -25,7 +25,7 @@
     "@nestjs/websockets": "^10.3.8",
     "@nestjs/platform-socket.io": "^10.3.8",
     "nestjs-pino": "^4.0.0",
-    "pino": "^9.0.0",
+    "pino": "^10.3.1",
     "pino-http": "^10.1.0",
     "pg": "^8.11.5",
     "typeorm": "^0.3.20",
