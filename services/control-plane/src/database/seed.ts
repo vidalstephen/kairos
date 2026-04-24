@@ -2,6 +2,7 @@
  * Seed script: inserts default tool_registry entries if they don't already exist.
  * Run via: pnpm migration:seed  (see package.json)
  */
+/* eslint-disable no-console */
 import 'reflect-metadata';
 import { AppDataSource } from './data-source.js';
 

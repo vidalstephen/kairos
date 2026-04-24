@@ -102,12 +102,12 @@ The phased plan from foundation through post-launch. Each item is actionable; ch
 - [x] DataSource config, migration runner, seed mechanism
 
 ### 1.2 Auth
-- [ ] Bcrypt password hashing (cost 12)
-- [ ] JWT access (15m) + refresh (7d, rotating, hashed at rest)
-- [ ] `POST /auth/login`, `/auth/refresh`, `/auth/logout`, `/auth/me`
-- [ ] JwtAuthGuard, RolesGuard
-- [ ] Login rate limit (5 attempts / 15m / IP)
-- [ ] Unit + integration tests
+- [x] Bcrypt password hashing (cost 12)
+- [x] JWT access (15m) + refresh (7d, rotating, hashed at rest)
+- [x] `POST /auth/login`, `/auth/refresh`, `/auth/logout`, `/auth/me`
+- [x] JwtAuthGuard, RolesGuard
+- [x] Login rate limit (5 attempts / 15m / IP)
+- [x] Unit + integration tests
 
 ### 1.3 Workspaces & sessions
 - [ ] Workspace CRUD + membership matrix

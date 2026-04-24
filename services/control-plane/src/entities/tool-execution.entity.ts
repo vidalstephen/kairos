@@ -1,4 +1,11 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { BlastRadius, ToolExecStatus } from '../database/enums.js';
 import type { RunEntity } from './run.entity.js';
 import type { ToolRegistryEntity } from './tool-registry.entity.js';
@@ -51,7 +58,9 @@ export class ToolExecutionEntity {
   @JoinColumn({ name: 'run_id' })
   run!: RunEntity;
 
-  @ManyToOne('ToolRegistryEntity', (t: ToolRegistryEntity) => t.executions, { onDelete: 'RESTRICT' })
+  @ManyToOne('ToolRegistryEntity', (t: ToolRegistryEntity) => t.executions, {
+    onDelete: 'RESTRICT',
+  })
   @JoinColumn({ name: 'tool_id' })
   tool!: ToolRegistryEntity;
 }

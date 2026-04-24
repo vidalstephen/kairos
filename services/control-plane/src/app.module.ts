@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { LoggerModule } from 'nestjs-pino';
 import { DatabaseModule } from './database/database.module.js';
+import { AuthModule } from './modules/auth/auth.module.js';
 import { HealthController } from './modules/health/health.controller.js';
 
 @Module({
@@ -15,7 +17,12 @@ import { HealthController } from './modules/health/health.controller.js';
           : {}),
       },
     }),
+    ThrottlerModule.forRoot([
+      { name: 'global', ttl: 60_000, limit: 300 },
+      { name: 'login', ttl: 900_000, limit: 5 },
+    ]),
     DatabaseModule,
+    AuthModule,
   ],
   controllers: [HealthController],
   providers: [],
