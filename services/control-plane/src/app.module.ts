@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { BullModule } from '@nestjs/bullmq';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { LoggerModule } from 'nestjs-pino';
@@ -8,7 +9,9 @@ import { AuthModule } from './modules/auth/auth.module.js';
 import { ApprovalsModule } from './modules/approvals/approvals.module.js';
 import { GatewayModule } from './modules/gateway/gateway.module.js';
 import { HealthController } from './modules/health/health.controller.js';
+import { ObservabilityModule } from './modules/observability/observability.module.js';
 import { PolicyModule } from './modules/policy/policy.module.js';
+import { RunsModule } from './modules/runs/runs.module.js';
 import { SessionsModule } from './modules/sessions/sessions.module.js';
 import { WorkspacesModule } from './modules/workspaces/workspaces.module.js';
 
@@ -16,6 +19,15 @@ import { WorkspacesModule } from './modules/workspaces/workspaces.module.js';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     ScheduleModule.forRoot(),
+    BullModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (cfg: ConfigService) => ({
+        connection: {
+          host: cfg.get<string>('REDIS_HOST', 'localhost'),
+          port: cfg.get<number>('REDIS_PORT', 6379),
+        },
+      }),
+    }),
     LoggerModule.forRoot({
       pinoHttp: {
         level: process.env['LOG_LEVEL'] ?? 'info',
@@ -35,6 +47,8 @@ import { WorkspacesModule } from './modules/workspaces/workspaces.module.js';
     GatewayModule,
     PolicyModule,
     ApprovalsModule,
+    RunsModule,
+    ObservabilityModule,
   ],
   controllers: [HealthController],
   providers: [],

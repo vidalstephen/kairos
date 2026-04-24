@@ -19,6 +19,7 @@
     "migration:seed": "typeorm-ts-node-esm src/database/seed.ts"
   },
   "dependencies": {
+    "@nestjs/bullmq": "^11.0.4",
     "@nestjs/common": "^10.3.8",
     "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.3.8",
@@ -31,6 +32,7 @@
     "@nestjs/typeorm": "^10.0.2",
     "@nestjs/websockets": "^10.3.8",
     "bcrypt": "^5.1.1",
+    "bullmq": "^5.76.1",
     "ioredis": "^5.4.1",
     "nestjs-pino": "^4.0.0",
     "passport": "^0.7.0",

@@ -153,10 +153,10 @@ The phased plan from foundation through post-launch. Each item is actionable; ch
 
 ### 1.7 Run engine
 
-- [ ] Run entity + state machine (QUEUED → RUNNING → COMPLETED/FAILED/CANCELLED/TIMED_OUT)
-- [ ] BullMQ queue, `RunConsumer` worker
-- [ ] Token + time budget enforcement
-- [ ] Trace emission (spans) via OpenTelemetry
+- [x] Run entity + state machine (QUEUED → RUNNING → COMPLETED/FAILED/CANCELLED/TIMED_OUT)
+- [x] BullMQ queue, `RunConsumer` worker
+- [x] Token + time budget enforcement
+- [x] Trace emission (spans) via OpenTelemetry
 
 ### 1.8 Cognition v1
 
