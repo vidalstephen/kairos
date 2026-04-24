@@ -7,10 +7,7 @@ import { ApprovalsController, ApprovalsWebhookController } from './approvals.con
 import { ApprovalsService } from './approvals.service.js';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([ApprovalEntity, AuditEventEntity]),
-    GatewayModule,
-  ],
+  imports: [TypeOrmModule.forFeature([ApprovalEntity, AuditEventEntity]), GatewayModule],
   controllers: [ApprovalsController, ApprovalsWebhookController],
   providers: [ApprovalsService],
   exports: [ApprovalsService],

@@ -1,10 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { ApprovalStateMachine } from '../../../database/enums.js';
-import {
-  assertTransition,
-  canTransition,
-  isTerminal,
-} from '../approval-state-machine.js';
+import { assertTransition, canTransition, isTerminal } from '../approval-state-machine.js';
 
 // ── isTerminal ────────────────────────────────────────────────────────────────
 
@@ -145,6 +141,8 @@ describe('assertTransition', () => {
   it('throws with message containing both states', () => {
     expect(() =>
       assertTransition(ApprovalStateMachine.APPROVED, ApprovalStateMachine.CANCELLED),
-    ).toThrow(`Invalid approval transition: ${ApprovalStateMachine.APPROVED} → ${ApprovalStateMachine.CANCELLED}`);
+    ).toThrow(
+      `Invalid approval transition: ${ApprovalStateMachine.APPROVED} → ${ApprovalStateMachine.CANCELLED}`,
+    );
   });
 });

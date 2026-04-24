@@ -136,11 +136,11 @@ The phased plan from foundation through post-launch. Each item is actionable; ch
 
 ### 1.5 Approvals
 
-- [ ] Approval state machine (PENDING → APPROVED/REJECTED/TIMED_OUT/CANCELLED) with 100% branch coverage
-- [ ] `POST /approvals/:id/resolve`, `GET /approvals`, `GET /approvals/:id`
-- [ ] WS events: `approval.requested`, `approval.resolved`
-- [ ] Webhook endpoint with HMAC-signed tokens
-- [ ] Timeout worker (configurable per workspace)
+- [x] Approval state machine (PENDING → APPROVED/DENIED/EXPIRED/CANCELLED) with 100% branch coverage
+- [x] `POST /approvals/:id/resolve`, `GET /approvals`, `GET /approvals/:id`
+- [x] WS events: `approval.requested`, `approval.resolved`
+- [x] Webhook endpoint with HMAC-signed tokens
+- [x] Timeout worker (configurable per workspace)
 
 ### 1.6 Vault
 
