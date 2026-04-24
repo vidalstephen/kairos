@@ -59,7 +59,7 @@ describe.skipIf(!TEST_DB_URL)('Auth integration', () => {
     userRepo = module.get<Repository<UserEntity>>(getRepositoryToken(UserEntity));
 
     // Seed a test user
-    const hash = await bcrypt.hash('Integration@Pass1', 12) // pragma: allowlist secret;
+    const hash = await bcrypt.hash('Integration@Pass1', 12); // pragma: allowlist secret;
     await userRepo.save(
       userRepo.create({
         email: 'integration-test@example.com',
@@ -165,9 +165,7 @@ describe.skipIf(!TEST_DB_URL)('Auth integration', () => {
   });
 
   it('GET /api/v1/auth/me — returns 401 without token', async () => {
-    const res = await supertest(app.getHttpServer())
-      .get('/api/v1/auth/me')
-      .expect(401);
+    const res = await supertest(app.getHttpServer()).get('/api/v1/auth/me').expect(401);
 
     expect(res.body).toMatchObject({ code: 'AUTH_REQUIRED' });
   });

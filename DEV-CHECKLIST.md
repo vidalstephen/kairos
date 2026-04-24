@@ -128,11 +128,11 @@ The phased plan from foundation through post-launch. Each item is actionable; ch
 
 ### 1.4 Policy engine (Layer 0/1)
 
-- [ ] Blast-radius classifier (all six bands, see [docs/security/blast-radius-policy.md](docs/security/blast-radius-policy.md))
-- [ ] 100% branch coverage on classifier
-- [ ] Capability token service (HMAC-SHA256, 60s expiry, timing-safe verify)
-- [ ] Policy service: ingest tool call → classify → require approval? → issue capability token
-- [ ] Audit every decision
+- [x] Blast-radius classifier (all six bands, see [docs/security/blast-radius-policy.md](docs/security/blast-radius-policy.md))
+- [x] 100% branch coverage on classifier
+- [x] Capability token service (HMAC-SHA256, 60s expiry, timing-safe verify)
+- [x] Policy service: ingest tool call → classify → require approval? → issue capability token
+- [x] Audit every decision
 
 ### 1.5 Approvals
 

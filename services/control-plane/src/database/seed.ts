@@ -68,7 +68,11 @@ const DEFAULT_TOOLS = [
     tier: 'T1',
     manifest: {
       description: 'Store a new entry in the memory layer',
-      params: { content: { type: 'string' }, scope: { type: 'string' }, source_type: { type: 'string' } },
+      params: {
+        content: { type: 'string' },
+        scope: { type: 'string' },
+        source_type: { type: 'string' },
+      },
       capabilities: ['memory:write'],
       network_policy: 'none',
     },

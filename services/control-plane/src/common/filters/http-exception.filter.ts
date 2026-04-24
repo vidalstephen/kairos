@@ -1,10 +1,4 @@
-import {
-  ArgumentsHost,
-  Catch,
-  ExceptionFilter,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { randomUUID } from 'node:crypto';
 import { ZodError } from 'zod';
@@ -31,8 +25,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     const req = ctx.getRequest<Request>();
     const res = ctx.getResponse<Response>();
 
-    const requestId =
-      (req.headers['x-request-id'] as string | undefined) ?? randomUUID();
+    const requestId = (req.headers['x-request-id'] as string | undefined) ?? randomUUID();
 
     if (exception instanceof HttpException) {
       const status = exception.getStatus();

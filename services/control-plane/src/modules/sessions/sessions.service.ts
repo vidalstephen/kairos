@@ -34,11 +34,7 @@ export class SessionsService {
     private readonly members: Repository<WorkspaceMemberEntity>,
   ) {}
 
-  async create(
-    workspaceId: string,
-    userId: string,
-    dto: CreateSessionDto,
-  ): Promise<SessionEntity> {
+  async create(workspaceId: string, userId: string, dto: CreateSessionDto): Promise<SessionEntity> {
     const member = await this.members.findOne({ where: { workspaceId, userId } });
     if (member == null) {
       throw new ForbiddenException('Access denied');
@@ -81,17 +77,12 @@ export class SessionsService {
     const has_more = rows.length > limit;
     const data = has_more ? rows.slice(0, limit) : rows;
     const last = data[data.length - 1];
-    const next_cursor =
-      has_more && last !== undefined ? last.startedAt.toISOString() : null;
+    const next_cursor = has_more && last !== undefined ? last.startedAt.toISOString() : null;
 
     return { data, next_cursor, has_more };
   }
 
-  async findOne(
-    id: string,
-    userId: string,
-    includeMessages = false,
-  ): Promise<SessionEntity> {
+  async findOne(id: string, userId: string, includeMessages = false): Promise<SessionEntity> {
     const options: FindOneOptions<SessionEntity> = { where: { id } };
     if (includeMessages) {
       options.relations = { messages: true };

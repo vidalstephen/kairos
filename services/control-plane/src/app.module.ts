@@ -7,6 +7,7 @@ import { DatabaseModule } from './database/database.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
 import { GatewayModule } from './modules/gateway/gateway.module.js';
 import { HealthController } from './modules/health/health.controller.js';
+import { PolicyModule } from './modules/policy/policy.module.js';
 import { SessionsModule } from './modules/sessions/sessions.module.js';
 import { WorkspacesModule } from './modules/workspaces/workspaces.module.js';
 
@@ -31,6 +32,7 @@ import { WorkspacesModule } from './modules/workspaces/workspaces.module.js';
     WorkspacesModule,
     SessionsModule,
     GatewayModule,
+    PolicyModule,
   ],
   controllers: [HealthController],
   providers: [],
