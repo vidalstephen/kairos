@@ -21,6 +21,9 @@ export class CredentialAccessLogEntity {
   @Column({ type: 'uuid', name: 'tool_execution_id', nullable: true })
   toolExecutionId!: string | null;
 
+  @Column({ type: 'text', name: 'access_id', nullable: true })
+  accessId!: string | null;
+
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt!: Date;
 

@@ -7,6 +7,7 @@ import { SelfState20260424000004 } from './migrations/20260424000004-self-state.
 import { Layer2State20260424000005 } from './migrations/20260424000005-layer2-state.js';
 import { Spans20260424000006 } from './migrations/20260424000006-spans.js';
 import { ApprovalsAddCancelled20260425000007 } from './migrations/20260425000007-approvals-add-cancelled.js';
+import { CredentialAccessLogAddAccessId20260425000008 } from './migrations/20260425000008-credential-access-log-access-id.js';
 import {
   AgentEntity,
   ApprovalEntity,
@@ -75,6 +76,7 @@ export const ALL_MIGRATIONS = [
   Layer2State20260424000005,
   Spans20260424000006,
   ApprovalsAddCancelled20260425000007,
+  CredentialAccessLogAddAccessId20260425000008,
 ] as const;
 
 export const AppDataSource = new DataSource({

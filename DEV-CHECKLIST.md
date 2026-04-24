@@ -144,12 +144,12 @@ The phased plan from foundation through post-launch. Each item is actionable; ch
 
 ### 1.6 Vault
 
-- [ ] Vault service container (Python, age encryption)
-- [ ] Endpoints: `/resolve`, `/store`, `/metadata`, `/rotate`, `/aliases`, `/health`
-- [ ] HMAC auth on all internal calls
-- [ ] age master-key mount from host
-- [ ] Policy-engine gateway → vault; cognition never calls vault directly
-- [ ] `credential_access_log` write path
+- [x] Vault service container (Python, age encryption)
+- [x] Endpoints: `/resolve`, `/store`, `/metadata`, `/rotate`, `/aliases`, `/health`
+- [x] HMAC auth on all internal calls
+- [x] age master-key mount from host
+- [x] Policy-engine gateway → vault; cognition never calls vault directly
+- [x] `credential_access_log` write path
 
 ### 1.7 Run engine
 

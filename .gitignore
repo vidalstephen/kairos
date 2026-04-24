@@ -44,7 +44,7 @@ test-results/
 # Kairos runtime
 data/
 snapshots/
-vault/
+/vault/
 *.db
 *.sqlite
 
