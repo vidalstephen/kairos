@@ -14,7 +14,9 @@
     "lint:fix": "eslint \"src/**/*.ts\" --fix",
     "typecheck": "tsc --noEmit",
     "migration:run": "typeorm-ts-node-esm migration:run -d src/database/data-source.ts",
-    "migration:generate": "typeorm-ts-node-esm migration:generate -d src/database/data-source.ts"
+    "migration:generate": "typeorm-ts-node-esm migration:generate -d src/database/data-source.ts",
+    "migration:revert": "typeorm-ts-node-esm migration:revert -d src/database/data-source.ts",
+    "migration:seed": "typeorm-ts-node-esm src/database/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.3.8",
@@ -45,6 +47,7 @@
     "pino-pretty": "^11.0.0",
     "prettier": "^3.2.5",
     "typescript": "^5.4.5",
+    "ts-node": "^10.9.2",
     "vitest": "^1.5.0"
   },
   "engines": {
