@@ -169,11 +169,11 @@ The phased plan from foundation through post-launch. Each item is actionable; ch
 
 ### 1.9 Tools (minimal set)
 
-- [ ] `shell_exec` (read-only patterns auto-approve)
-- [ ] `file_read`, `file_write`, `file_list`
-- [ ] `memory_recall`, `memory_store`
-- [ ] Tool registry + manifest validation
-- [ ] Result sanitization (credential regex, size cap)
+- [x] `shell_exec` (read-only patterns auto-approve)
+- [x] `file_read`, `file_write`, `file_list`
+- [x] `memory_recall`, `memory_store`
+- [x] Tool registry + manifest validation
+- [x] Result sanitization (credential regex, size cap)
 
 ### 1.10 Sandbox
 
