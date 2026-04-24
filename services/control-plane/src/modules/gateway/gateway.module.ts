@@ -15,5 +15,6 @@ import { KairosGateway } from './kairos.gateway.js';
     TypeOrmModule.forFeature([MessageEntity, RunEntity, RevokedTokenEntity, SessionEntity]),
   ],
   providers: [KairosGateway],
+  exports: [KairosGateway],
 })
 export class GatewayModule {}

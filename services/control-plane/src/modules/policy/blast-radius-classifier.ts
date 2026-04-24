@@ -46,8 +46,7 @@ const BENIGN_READ_RX =
  * Matches commands whose first token creates/moves/links files or dirs within
  * the workspace, plus git local-mutation subcommands.
  */
-const BENIGN_LOCAL_WRITE_RX =
-  /^(?:touch|mkdir|cp|mv|ln|chmod|chown)\b/i;
+const BENIGN_LOCAL_WRITE_RX = /^(?:touch|mkdir|cp|mv|ln|chmod|chown)\b/i;
 
 /**
  * Matches destructive shell patterns. Not anchored — detects destructive
@@ -80,11 +79,7 @@ const PACKAGE_MANAGER_TOOLS = new Set([
 
 // ── Capability-install tool names ─────────────────────────────────────────────
 
-const CAPABILITY_INSTALL_TOOLS = new Set([
-  'capability_install',
-  'skill_install',
-  'agent_install',
-]);
+const CAPABILITY_INSTALL_TOOLS = new Set(['capability_install', 'skill_install', 'agent_install']);
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -142,8 +137,7 @@ function classifyHttpTool(
   requestedNetworkDomains: string[],
   workspaceContext: { approvedDomains: string[] },
 ): ClassifierResult {
-  const method =
-    typeof params['method'] === 'string' ? params['method'].toUpperCase() : 'GET';
+  const method = typeof params['method'] === 'string' ? params['method'].toUpperCase() : 'GET';
   const delta = newDomains(requestedNetworkDomains, workspaceContext.approvedDomains);
 
   if (method === 'GET' || method === 'HEAD') {
@@ -170,16 +164,14 @@ function classifyGitTool(
   workspaceContext: { approvedDomains: string[] },
 ): ClassifierResult {
   // Derive subcommand: from toolName suffix (git_push → push) or params
-  const suffix =
-    toolName.includes('_') ? toolName.split('_').slice(1).join('_') : '';
+  const suffix = toolName.includes('_') ? toolName.split('_').slice(1).join('_') : '';
   const subcommand = (
     typeof params['subcommand'] === 'string' ? params['subcommand'] : suffix
   ).toLowerCase();
 
   // Check force-push first (more specific than plain push)
   if (subcommand === 'push') {
-    const rawCommand =
-      typeof params['command'] === 'string' ? params['command'] : '';
+    const rawCommand = typeof params['command'] === 'string' ? params['command'] : '';
     const argsStr = Array.isArray(params['args'])
       ? (params['args'] as unknown[]).map(String).join(' ')
       : '';
@@ -195,11 +187,7 @@ function classifyGitTool(
 
     const delta = newDomains(requestedNetworkDomains, workspaceContext.approvedDomains);
     if (delta.length > 0) {
-      return makeResult(
-        BlastRadius.NETWORK_EGRESS_NEW,
-        `Git: push to unapproved domain`,
-        delta,
-      );
+      return makeResult(BlastRadius.NETWORK_EGRESS_NEW, `Git: push to unapproved domain`, delta);
     }
     return makeResult(BlastRadius.STATEFUL_EXTERNAL, 'Git: push accesses remote');
   }
@@ -256,10 +244,7 @@ function classifyFilesystemTool(
   if (hint != null) {
     const band = Object.values(BlastRadius).find((v) => v === hint);
     if (band != null) {
-      return makeResult(
-        band as BlastRadius,
-        `Filesystem: manifest blast_radius_hint = ${hint}`,
-      );
+      return makeResult(band as BlastRadius, `Filesystem: manifest blast_radius_hint = ${hint}`);
     }
   }
 
@@ -281,13 +266,7 @@ function classifyFilesystemTool(
  * Rules applied in spec order (docs/security/blast-radius-policy.md).
  */
 export function classifyToolCall(input: ClassifierInput): ClassifierResult {
-  const {
-    toolName,
-    params,
-    manifest,
-    workspaceContext,
-    requestedNetworkDomains = [],
-  } = input;
+  const { toolName, params, manifest, workspaceContext, requestedNetworkDomains = [] } = input;
 
   let result: ClassifierResult;
 
@@ -328,10 +307,7 @@ export function classifyToolCall(input: ClassifierInput): ClassifierResult {
   }
 
   // Escalation: stateful_external + new network domains → add delta to signal combined approval
-  if (
-    requestedNetworkDomains.length > 0 &&
-    result.blastRadius === BlastRadius.STATEFUL_EXTERNAL
-  ) {
+  if (requestedNetworkDomains.length > 0 && result.blastRadius === BlastRadius.STATEFUL_EXTERNAL) {
     const delta = newDomains(requestedNetworkDomains, workspaceContext.approvedDomains);
     if (delta.length > 0) {
       return {

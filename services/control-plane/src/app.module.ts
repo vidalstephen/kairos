@@ -5,6 +5,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { LoggerModule } from 'nestjs-pino';
 import { DatabaseModule } from './database/database.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
+import { ApprovalsModule } from './modules/approvals/approvals.module.js';
 import { GatewayModule } from './modules/gateway/gateway.module.js';
 import { HealthController } from './modules/health/health.controller.js';
 import { PolicyModule } from './modules/policy/policy.module.js';
@@ -33,6 +34,7 @@ import { WorkspacesModule } from './modules/workspaces/workspaces.module.js';
     SessionsModule,
     GatewayModule,
     PolicyModule,
+    ApprovalsModule,
   ],
   controllers: [HealthController],
   providers: [],

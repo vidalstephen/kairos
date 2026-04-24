@@ -93,6 +93,7 @@ export enum ApprovalStateMachine {
   APPROVED = 'APPROVED',
   DENIED = 'DENIED',
   EXPIRED = 'EXPIRED',
+  CANCELLED = 'CANCELLED',
 }
 
 export enum GoalPriority {

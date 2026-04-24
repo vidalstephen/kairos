@@ -6,6 +6,7 @@ import { Memory20260424000003 } from './migrations/20260424000003-memory.js';
 import { SelfState20260424000004 } from './migrations/20260424000004-self-state.js';
 import { Layer2State20260424000005 } from './migrations/20260424000005-layer2-state.js';
 import { Spans20260424000006 } from './migrations/20260424000006-spans.js';
+import { ApprovalsAddCancelled20260425000007 } from './migrations/20260425000007-approvals-add-cancelled.js';
 import {
   AgentEntity,
   ApprovalEntity,
@@ -73,6 +74,7 @@ export const ALL_MIGRATIONS = [
   SelfState20260424000004,
   Layer2State20260424000005,
   Spans20260424000006,
+  ApprovalsAddCancelled20260425000007,
 ] as const;
 
 export const AppDataSource = new DataSource({

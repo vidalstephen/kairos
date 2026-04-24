@@ -128,9 +128,7 @@ describe('shell_exec', () => {
   });
 
   it('defaults when command param is missing to WRITE_LOCAL', () => {
-    const result = classifyToolCall(
-      makeInput({ toolName: 'shell_exec', params: {} }),
-    );
+    const result = classifyToolCall(makeInput({ toolName: 'shell_exec', params: {} }));
     expect(result.blastRadius).toBe(BlastRadius.WRITE_LOCAL);
   });
 });
@@ -263,9 +261,7 @@ describe('git tools', () => {
   });
 
   it('classifies git_push with force=true as DESTRUCTIVE', () => {
-    const result = classifyToolCall(
-      makeInput({ toolName: 'git_push', params: { force: true } }),
-    );
+    const result = classifyToolCall(makeInput({ toolName: 'git_push', params: { force: true } }));
     expect(result.blastRadius).toBe(BlastRadius.DESTRUCTIVE);
   });
 
@@ -331,9 +327,7 @@ describe('git tools', () => {
   });
 
   it('classifies unrecognised git subcommand as STATEFUL_EXTERNAL', () => {
-    const result = classifyToolCall(
-      makeInput({ toolName: 'git_obliterate', params: {} }),
-    );
+    const result = classifyToolCall(makeInput({ toolName: 'git_obliterate', params: {} }));
     expect(result.blastRadius).toBe(BlastRadius.STATEFUL_EXTERNAL);
     expect(result.reason).toMatch(/unrecognised subcommand/);
   });
@@ -495,9 +489,7 @@ describe('filesystem tools', () => {
 
 describe('capability install tools', () => {
   it('classifies capability_install as INSTALL', () => {
-    const result = classifyToolCall(
-      makeInput({ toolName: 'capability_install', params: {} }),
-    );
+    const result = classifyToolCall(makeInput({ toolName: 'capability_install', params: {} }));
     expect(result.blastRadius).toBe(BlastRadius.INSTALL);
     expect(result.requiresApproval).toBe(true);
   });
@@ -561,17 +553,13 @@ describe('escalation', () => {
 
 describe('requiresApproval matrix', () => {
   it('READ → requiresApproval=false, requiresToken=false', () => {
-    const r = classifyToolCall(
-      makeInput({ toolName: 'file_read', params: {} }),
-    );
+    const r = classifyToolCall(makeInput({ toolName: 'file_read', params: {} }));
     expect(r.requiresApproval).toBe(false);
     expect(r.requiresToken).toBe(false);
   });
 
   it('WRITE_LOCAL → requiresApproval=false, requiresToken=false', () => {
-    const r = classifyToolCall(
-      makeInput({ toolName: 'file_write', params: {} }),
-    );
+    const r = classifyToolCall(makeInput({ toolName: 'file_write', params: {} }));
     expect(r.requiresApproval).toBe(false);
     expect(r.requiresToken).toBe(false);
   });

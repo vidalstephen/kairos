@@ -83,8 +83,7 @@ export class PolicyService {
       dto.toolName,
       classification.blastRadius,
     );
-    const requiresApproval =
-      overrideRule != null ? false : classification.requiresApproval;
+    const requiresApproval = overrideRule != null ? false : classification.requiresApproval;
 
     // Step 3 — issue capability token for auto-approved calls
     let capabilityToken: string | null = null;

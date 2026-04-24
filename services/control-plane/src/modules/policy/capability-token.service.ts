@@ -37,9 +37,7 @@ export class CapabilityTokenService {
    * Issue a capability token for an approved tool call.
    * Expires in CAPABILITY_TOKEN_TTL_MS (60 s).
    */
-  issue(
-    payload: Omit<CapabilityTokenPayload, 'issuedAt' | 'expiresAt'>,
-  ): string {
+  issue(payload: Omit<CapabilityTokenPayload, 'issuedAt' | 'expiresAt'>): string {
     const now = Date.now();
     const full: CapabilityTokenPayload = {
       ...payload,
