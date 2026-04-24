@@ -1,14 +1,7 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 import { ZodError } from 'zod';
+import { WorkspacesService } from '../workspaces/workspaces.service.js';
 import type { LoginResult, RefreshResult } from './auth.service.js';
 import { AuthService } from './auth.service.js';
 import { CurrentUser } from './decorators/current-user.decorator.js';
@@ -20,7 +13,10 @@ import type { JwtUser } from './types.js';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly workspacesService: WorkspacesService,
+  ) {}
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
@@ -30,7 +26,9 @@ export class AuthController {
     if (!result.success) {
       throw new ZodError(result.error.issues);
     }
-    return this.authService.login(result.data);
+    const tokens = await this.authService.login(result.data);
+    await this.workspacesService.ensurePersonalWorkspace(tokens.user.id);
+    return tokens;
   }
 
   @Post('refresh')

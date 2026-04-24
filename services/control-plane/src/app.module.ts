@@ -1,14 +1,19 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { LoggerModule } from 'nestjs-pino';
 import { DatabaseModule } from './database/database.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
+import { GatewayModule } from './modules/gateway/gateway.module.js';
 import { HealthController } from './modules/health/health.controller.js';
+import { SessionsModule } from './modules/sessions/sessions.module.js';
+import { WorkspacesModule } from './modules/workspaces/workspaces.module.js';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    ScheduleModule.forRoot(),
     LoggerModule.forRoot({
       pinoHttp: {
         level: process.env['LOG_LEVEL'] ?? 'info',
@@ -23,6 +28,9 @@ import { HealthController } from './modules/health/health.controller.js';
     ]),
     DatabaseModule,
     AuthModule,
+    WorkspacesModule,
+    SessionsModule,
+    GatewayModule,
   ],
   controllers: [HealthController],
   providers: [],

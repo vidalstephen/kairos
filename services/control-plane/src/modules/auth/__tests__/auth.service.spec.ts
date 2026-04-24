@@ -135,7 +135,9 @@ describe('AuthService', () => {
         getMany: vi.fn().mockResolvedValue([rt]),
       };
 
-      vi.mocked(rtRepo.createQueryBuilder).mockReturnValue(qb as unknown as ReturnType<Repository<RefreshTokenEntity>['createQueryBuilder']>);
+      vi.mocked(rtRepo.createQueryBuilder).mockReturnValue(
+        qb as unknown as ReturnType<Repository<RefreshTokenEntity>['createQueryBuilder']>,
+      );
       vi.mocked(rtRepo.update).mockResolvedValue({ affected: 1 } as never);
       vi.mocked(userRepo.findOne).mockResolvedValue(user);
       vi.mocked(rtRepo.create).mockImplementation((v) => v as RefreshTokenEntity);
@@ -156,7 +158,9 @@ describe('AuthService', () => {
         take: vi.fn().mockReturnThis(),
         getMany: vi.fn().mockResolvedValue([]),
       };
-      vi.mocked(rtRepo.createQueryBuilder).mockReturnValue(qb as unknown as ReturnType<Repository<RefreshTokenEntity>['createQueryBuilder']>);
+      vi.mocked(rtRepo.createQueryBuilder).mockReturnValue(
+        qb as unknown as ReturnType<Repository<RefreshTokenEntity>['createQueryBuilder']>,
+      );
 
       await expect(service.refresh('no-such-token')).rejects.toThrow(UnauthorizedException);
     });
@@ -174,7 +178,9 @@ describe('AuthService', () => {
         getMany: vi.fn().mockResolvedValue([rt]),
       };
 
-      vi.mocked(rtRepo.createQueryBuilder).mockReturnValue(qb as unknown as ReturnType<Repository<RefreshTokenEntity>['createQueryBuilder']>);
+      vi.mocked(rtRepo.createQueryBuilder).mockReturnValue(
+        qb as unknown as ReturnType<Repository<RefreshTokenEntity>['createQueryBuilder']>,
+      );
       vi.mocked(rtRepo.update).mockResolvedValue({ affected: 1 } as never);
       vi.mocked(userRepo.findOne).mockResolvedValue(null);
 
@@ -198,7 +204,9 @@ describe('AuthService', () => {
         getMany: vi.fn().mockResolvedValue([rt]),
       };
 
-      vi.mocked(rtRepo.createQueryBuilder).mockReturnValue(qb as unknown as ReturnType<Repository<RefreshTokenEntity>['createQueryBuilder']>);
+      vi.mocked(rtRepo.createQueryBuilder).mockReturnValue(
+        qb as unknown as ReturnType<Repository<RefreshTokenEntity>['createQueryBuilder']>,
+      );
       vi.mocked(rtRepo.update).mockResolvedValue({ affected: 1 } as never);
 
       await service.logout(rawToken);
@@ -214,7 +222,9 @@ describe('AuthService', () => {
         take: vi.fn().mockReturnThis(),
         getMany: vi.fn().mockResolvedValue([]),
       };
-      vi.mocked(rtRepo.createQueryBuilder).mockReturnValue(qb as unknown as ReturnType<Repository<RefreshTokenEntity>['createQueryBuilder']>);
+      vi.mocked(rtRepo.createQueryBuilder).mockReturnValue(
+        qb as unknown as ReturnType<Repository<RefreshTokenEntity>['createQueryBuilder']>,
+      );
 
       await expect(service.logout('unknown-token')).resolves.toBeUndefined();
       expect(rtRepo.update).not.toHaveBeenCalled();

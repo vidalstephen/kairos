@@ -2,6 +2,7 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { GlobalExceptionFilter } from '../../../common/filters/http-exception.filter.js';
 import { UserRole } from '../../../database/enums.js';
+import { WorkspacesService } from '../../workspaces/workspaces.service.js';
 import { AuthController } from '../auth.controller.js';
 import type { LoginResult, RefreshResult } from '../auth.service.js';
 import { AuthService } from '../auth.service.js';
@@ -37,6 +38,7 @@ describe('AuthController', () => {
     logout: ReturnType<typeof vi.fn>;
     me: ReturnType<typeof vi.fn>;
   };
+  let workspacesService: { ensurePersonalWorkspace: ReturnType<typeof vi.fn> };
 
   beforeEach(() => {
     authService = {
@@ -45,9 +47,15 @@ describe('AuthController', () => {
       logout: vi.fn(),
       me: vi.fn(),
     };
+    workspacesService = {
+      ensurePersonalWorkspace: vi.fn().mockResolvedValue(undefined),
+    };
 
     // Direct instantiation — bypasses NestJS DI for true unit tests
-    controller = new AuthController(authService as unknown as AuthService);
+    controller = new AuthController(
+      authService as unknown as AuthService,
+      workspacesService as unknown as WorkspacesService,
+    );
   });
 
   // ── login ──────────────────────────────────────────────────────────────────
@@ -59,7 +67,11 @@ describe('AuthController', () => {
 
       const result = await controller.login({ email: 'test@example.com', password: 'pass' }); // pragma: allowlist secret
 
-      expect(authService.login).toHaveBeenCalledWith({ email: 'test@example.com', password: 'pass' }); // pragma: allowlist secret
+      expect(authService.login).toHaveBeenCalledWith({
+        email: 'test@example.com',
+        password: 'pass', // pragma: allowlist secret
+      });
+      expect(workspacesService.ensurePersonalWorkspace).toHaveBeenCalledWith(expected.user.id);
       expect(result).toBe(expected);
     });
 
@@ -98,9 +110,7 @@ describe('AuthController', () => {
     it('delegates to authService.logout', async () => {
       vi.mocked(authService.logout).mockResolvedValue(undefined);
 
-      await expect(
-        controller.logout({ refresh_token: 'some-token' }),
-      ).resolves.toBeUndefined();
+      await expect(controller.logout({ refresh_token: 'some-token' })).resolves.toBeUndefined();
 
       expect(authService.logout).toHaveBeenCalledWith('some-token');
     });

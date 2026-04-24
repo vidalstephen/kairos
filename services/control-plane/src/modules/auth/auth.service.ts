@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -45,8 +41,7 @@ export class AuthService {
 
     // Constant-time comparison: always bcrypt.compare even if user not found
     // to prevent timing attacks that reveal which emails are registered.
-    const dummyHash =
-      '$2b$12$aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+    const dummyHash = '$2b$12$aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
     const hashToCheck = user?.passwordHash ?? dummyHash;
 
     const valid = await bcrypt.compare(dto.password, hashToCheck);
@@ -84,7 +79,9 @@ export class AuthService {
     // Silently succeed if token not found — don't expose existence
   }
 
-  async me(userId: string): Promise<Pick<UserEntity, 'id' | 'email' | 'displayName' | 'role' | 'createdAt'>> {
+  async me(
+    userId: string,
+  ): Promise<Pick<UserEntity, 'id' | 'email' | 'displayName' | 'role' | 'createdAt'>> {
     const user = await this.users.findOne({ where: { id: userId } });
     if (user == null) {
       throw new NotFoundException('User not found');
@@ -142,9 +139,7 @@ export class AuthService {
     };
   }
 
-  private async findValidRefreshToken(
-    rawToken: string,
-  ): Promise<RefreshTokenEntity | null> {
+  private async findValidRefreshToken(rawToken: string): Promise<RefreshTokenEntity | null> {
     const now = new Date();
 
     // Load recent unexpired, non-revoked tokens for the bcrypt comparison.
