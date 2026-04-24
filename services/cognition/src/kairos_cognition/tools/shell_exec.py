@@ -13,10 +13,14 @@ will wrap execution in the sandboxed executor container.
 from __future__ import annotations
 
 import asyncio
+import os
 import re
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from kairos_cognition.tools.base import ToolManifest, ToolParam, ToolResult
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -80,7 +84,24 @@ _MANIFEST = ToolManifest(
 
 
 class ShellExecTool:
-    """Async shell execution with read-only auto-approve detection."""
+    """Async shell execution with read-only auto-approve detection.
+
+    Args:
+        sandbox_env: Optional extra environment variables injected by
+            :class:`~kairos_cognition.sandbox.service.SandboxService`.
+            The ``KAIROS_CAP_TOKEN`` capability token is passed here.
+        preexec_fn: Optional callable applied in the child process before
+            ``exec``.  Used by the sandbox to apply OS resource limits.
+    """
+
+    def __init__(
+        self,
+        *,
+        sandbox_env: dict[str, str] | None = None,
+        preexec_fn: Callable[[], None] | None = None,
+    ) -> None:
+        self._sandbox_env: dict[str, str] = sandbox_env or {}
+        self._preexec_fn = preexec_fn
 
     @property
     def manifest(self) -> ToolManifest:
@@ -97,11 +118,18 @@ class ShellExecTool:
         timeout_ms = min(timeout_ms, _MAX_TIMEOUT_MS)
         timeout_s = timeout_ms / 1000.0
 
+        # Build subprocess environment: inherit host env, layer sandbox extras.
+        env: dict[str, str] | None = None
+        if self._sandbox_env:
+            env = {**os.environ, **self._sandbox_env}
+
         try:
             proc = await asyncio.create_subprocess_shell(
                 command,
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
+                env=env,
+                preexec_fn=self._preexec_fn,
             )
             try:
                 stdout_b, stderr_b = await asyncio.wait_for(proc.communicate(), timeout=timeout_s)

@@ -177,12 +177,12 @@ The phased plan from foundation through post-launch. Each item is actionable; ch
 
 ### 1.10 Sandbox
 
-- [ ] SandboxService spawns executor per tool call
-- [ ] Capability token env var passed + verified on entry
-- [ ] Resource limits enforced (cpu, mem, pids, fds)
-- [ ] Read-only rootfs + tmpfs + bind mounts per manifest
-- [ ] `kairos-sandbox` network, egress allowlist (Phase 2 adds egress proxy)
-- [ ] Timeout → SIGKILL + exit 137 + audit
+- [x] SandboxService spawns executor per tool call
+- [x] Capability token env var passed + verified on entry
+- [x] Resource limits enforced (cpu, mem, pids, fds)
+- [x] Read-only rootfs + tmpfs + bind mounts per manifest
+- [x] `kairos-sandbox` network, egress allowlist (Phase 2 adds egress proxy)
+- [x] Timeout → SIGKILL + exit 137 + audit
 
 ### 1.11 Memory
 
