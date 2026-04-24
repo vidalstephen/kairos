@@ -80,7 +80,7 @@ The phased plan from foundation through post-launch. Each item is actionable; ch
 - [x] `git init` on `main`
 - [x] First commit: `chore: initialize repository`
 - [x] Push to GitHub — [vidalstephen/kairos](https://github.com/vidalstephen/kairos)
-- [ ] Protect `main` branch — blocked: requires GitHub Pro or public repo; tracked in [#1](https://github.com/vidalstephen/kairos/issues/1)
+- [x] Protect `main` branch — required reviews (1), passing CI, linear history, no force-push
 - [x] Created Phase 0 follow-ups issue — [#1](https://github.com/vidalstephen/kairos/issues/1)
 
 **Phase 0 acceptance**: `make bootstrap && make up` brings up all services; `curl localhost:3001/api/v1/health/live` and `curl localhost:3000` return 200; `make doctor` passes; all docs cross-reference correctly.
