@@ -92,14 +92,14 @@ The phased plan from foundation through post-launch. Each item is actionable; ch
 **Goal**: a minimal Kairos can log in, hold a session, recall memory, run a tool end-to-end behind the policy engine.
 
 ### 1.1 Data layer
-- [ ] Migration: initial schema (users, workspaces, workspace_members, sessions, messages, runs, run_traces)
-- [ ] Migration: approvals, audit_events, credential_access_log, tool_registry, tool_executions
-- [ ] Migration: memory_entries (pgvector, FTS generated column, indexes)
-- [ ] Migration: self_state_snapshots (append-only + no-delete triggers)
-- [ ] Migration: policy_rules, persona_versions, mode_definitions, capabilities
-- [ ] Migration: spans (observability; partitioned by day — placeholder policy)
-- [ ] TypeORM entities for every table; reviewers confirm exactOptionalPropertyTypes compliance
-- [ ] DataSource config, migration runner, seed mechanism
+- [x] Migration: initial schema (users, workspaces, workspace_members, sessions, messages, runs, run_traces)
+- [x] Migration: approvals, audit_events, credential_access_log, tool_registry, tool_executions
+- [x] Migration: memory_entries (pgvector, FTS generated column, indexes)
+- [x] Migration: self_state_snapshots (append-only + no-delete triggers)
+- [x] Migration: policy_rules, persona_versions, mode_definitions, capabilities
+- [x] Migration: spans (observability; partitioned by day — placeholder policy)
+- [x] TypeORM entities for every table; reviewers confirm exactOptionalPropertyTypes compliance
+- [x] DataSource config, migration runner, seed mechanism
 
 ### 1.2 Auth
 - [ ] Bcrypt password hashing (cost 12)
