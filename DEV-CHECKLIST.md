@@ -160,12 +160,12 @@ The phased plan from foundation through post-launch. Each item is actionable; ch
 
 ### 1.8 Cognition v1
 
-- [ ] Provider adapters: Anthropic, OpenAI, OpenRouter (httpx async + tenacity retry)
-- [ ] Model router with failover per [docs/specs/model-routing.md](docs/specs/model-routing.md)
-- [ ] Ego main-loop scaffold (observe → plan → act; single stratum)
-- [ ] Context composer (system + persona + recent messages + retrieved memory fragments)
-- [ ] Safety sanitizer module
-- [ ] Re-voicing pipeline scaffold (passthrough for now; enforcement in Phase 2)
+- [x] Provider adapters: Anthropic, OpenAI, OpenRouter (httpx async + tenacity retry)
+- [x] Model router with failover per [docs/specs/model-routing.md](docs/specs/model-routing.md)
+- [x] Ego main-loop scaffold (observe → plan → act; single stratum)
+- [x] Context composer (system + persona + recent messages + retrieved memory fragments)
+- [x] Safety sanitizer module
+- [x] Re-voicing pipeline scaffold (passthrough for now; enforcement in Phase 2)
 
 ### 1.9 Tools (minimal set)
 
