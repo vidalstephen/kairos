@@ -11,6 +11,11 @@ services:
       - ../../services/cognition/src:/app/src
       - ../../services/cognition/pyproject.toml:/app/pyproject.toml
 
+  vault:
+    volumes:
+      - ../../services/vault/src:/app/src
+      - ../../services/vault/pyproject.toml:/app/pyproject.toml
+
   frontend:
     volumes:
       - ../../services/frontend/src:/app/src
