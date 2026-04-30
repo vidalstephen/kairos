@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: pnpm/action-setup@v4
         with: { version: 9 }
       - uses: actions/setup-node@v4
@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
       - run: pip install pip-audit
@@ -42,7 +42,7 @@ jobs:
       matrix:
         service: [control-plane, cognition, frontend, executor]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build image
         run: docker build -t kairos-${{ matrix.service }}:scan services/${{ matrix.service }}
       - name: Trivy scan
@@ -56,7 +56,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with: { fetch-depth: 0 }
       - name: detect-secrets
         run: |
