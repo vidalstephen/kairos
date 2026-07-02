@@ -16,7 +16,7 @@
     "build": "pnpm -r --if-present run build"
   },
   "devDependencies": {
-    "prettier": "^3.2.5",
+    "prettier": "^3.9.4",
     "typescript": "^5.4.5"
   }
 }
